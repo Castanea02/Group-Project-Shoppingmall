@@ -1,11 +1,10 @@
 // App.tsx
 
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
 // Styled Components
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -56,6 +55,17 @@ const ProductPrice = styled.p`
   color: #555;
 `;
 
+const AddCart = styled.button`
+  width: 100px;
+  height: 30px;
+  color: white;
+  background-color: teal;
+`;
+
+const CartList = styled.div<{ cart?: string }>`
+  color: tomato;
+`;
+
 const Footer = styled.footer`
   background-color: #333;
   color: #fff;
@@ -63,8 +73,7 @@ const Footer = styled.footer`
   text-align: center;
 `;
 
-// App Component
-
+//Interfaces
 interface Product {
   id: number;
   title: string;
@@ -72,7 +81,43 @@ interface Product {
   imageUrl: string;
 }
 
+interface AddCart {
+  text: string;
+}
+
+// App Component
 const App: React.FC = () => {
+  const [state, setState] = useState<AddCart>({ text: "" });
+  const [cart, setCart] = useState<Product[]>([]);
+
+  const addCart = (data: any) => {
+    setCart((prev) => [...prev, data]);
+    console.log(data);
+  };
+
+  //InputChange 함수
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ text: e.currentTarget.value });
+  };
+
+  //클릭 이벤트 함수
+  const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(state);
+    const textbox = {
+      inText: state.text,
+    };
+
+    //Node 서버로 Post 요청
+    fetch("http://localhost:4000/text", {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(textbox),
+    });
+  };
+
+  //Fake Product Object
   const products: Product[] = [
     {
       id: 1,
@@ -95,6 +140,13 @@ const App: React.FC = () => {
     <Container>
       <Header>Shopping Mall</Header>
       <Main>
+        <div>
+          <input name="text" onChange={handleChange}></input>
+          <button onClick={onClick}>전송</button>
+          <h3>{state.text}</h3>
+        </div>
+
+        {/**메인 제품 칸*/}
         {products.map((product) => (
           <ProductCard
             key={product.id}
@@ -103,9 +155,19 @@ const App: React.FC = () => {
             <ProductImage src={product.imageUrl} alt={product.title} />
             <ProductTitle>{product.title}</ProductTitle>
             <ProductPrice>{product.price}</ProductPrice>
+            <AddCart onClick={() => addCart(product)}>Add Cart</AddCart>
           </ProductCard>
         ))}
       </Main>
+      <div>
+        <br />
+        <hr />
+        {cart.map((product) => (
+          <CartList>
+            {product.title}/{product.price}
+          </CartList>
+        ))}
+      </div>
       <Footer>© 2024 Shopping Mall</Footer>
     </Container>
   );
