@@ -1,28 +1,24 @@
 import express from "express";
 import cors from "cors";
-import path from "path";
+require("dotenv").config();
 
 const app = express();
 const PORT = 4000;
 
-const handleListening = () => console.log("Server Listening on port 4000 🔥");
+const handleListening = () => console.log("Server Listening on port 4000 ✅");
 
 app.use(express.json());
 app.use(cors());
 
-app.post("/text", (req, res) => {
+/**API 테스트*/
+app.post("/productList", (req, res) => {
   //데이터 받는 곳
   // req
-  const reqText = req.body.inText;
-  console.log(reqText);
+  const sendObj = req.body;
+  console.log(sendObj);
 
   // res
-  const sendText = {
-    text: "전송 성공!!!",
-    text2: reqText,
-  };
-
-  res.send(sendText);
+  res.send(sendObj);
 });
 
 app.listen(PORT, handleListening);
