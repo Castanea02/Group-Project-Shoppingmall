@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-require("dotenv").config();
+import "./db";
 
 const app = express();
 const PORT = 4000;
