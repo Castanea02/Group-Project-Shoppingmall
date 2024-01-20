@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/icons": "^2.1.1",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
     "@tanstack/react-query": "^5.17.9",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -13,7 +17,12 @@
     "@types/react-dom": "^18.2.18",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+<<<<<<< Updated upstream
     "framer-motion": "^10.17.12",
+=======
+    "framer-motion": "^10.18.0",
+    "mongoose": "^8.0.4",
+>>>>>>> Stashed changes
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^5.3.4",

@@ -1,52 +1,44 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { motion } from "framer-motion";
-import NavBar from "../components/NavBar";
+import { AnimatePresence, motion } from "framer-motion";
 import Footer from "../components/Footer";
+import Product from "../components/Product";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import { Box, Grid, GridItem } from "@chakra-ui/react";
 
 const backAdd = process.env.REACT_APP_NODE_ADDRESS;
+
+const Banner = styled.div`
+  height: 600px;
+  font-size: 36px;
+  background-color: tomato;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 2px 2px 0px gray;
+`;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
 `;
 
-const Main = styled.main`
-  flex: 1;
+const ProductSection = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: solid black 1px;
   margin-top: 10px;
 `;
 
-const ProductCard = styled.div`
+const ProductCard = styled(motion.div)`
   width: 300px;
   background-color: #fff;
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 16px;
-`;
-
-const ProductImage = styled.img`
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-`;
-
-const ProductTitle = styled.h3`
-  margin-top: 8px;
-  font-size: 18px;
-  color: #333;
-`;
-
-const ProductPrice = styled.p`
-  margin-top: 8px;
-  font-size: 16px;
-  color: #555;
+  cursor: pointer;
 `;
 
 const AddCart = styled(motion.button)`
@@ -96,8 +88,17 @@ const CartList = styled.div<{ cart?: string }>`
   }
 `;
 
+const Overlay = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+`;
+
 //Interfaces
-interface Product {
+interface IProduct {
   id: number;
   title: string;
   price: string;
@@ -108,19 +109,17 @@ interface AddCart {
   text: string;
 }
 
-function Products() {
-  const [sendText, setSendText] = useState<AddCart>({ text: "" });
-  const [cart, setCart] = useState<Product[]>([]);
+function Main() {
+  const [cart, setCart] = useState<IProduct[]>([]);
+  const history = useHistory();
+  const bigProductMatch = useRouteMatch<{ productId: string }>(
+    "/product/:productId"
+  );
 
   //Cart 추가 함수
   const addCart = (data: any) => {
     setCart((prev) => [...prev, data]);
     console.log(cart);
-  };
-
-  //InputChange 함수
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSendText({ text: e.currentTarget.value });
   };
 
   //클릭 이벤트 함수
@@ -137,21 +136,29 @@ function Products() {
       .then((data) => console.log(data));
   };
 
+  const onProductClicked = (productId: string) => {
+    history.push(`/product/${productId}`);
+  };
+
+  const onOverlayClicked = () => {
+    history.push("/");
+  };
+
   //Fake Product Object
-  const products: Product[] = [
+  const fakeproducts: IProduct[] = [
     {
       id: 1,
       title: "너굴맨",
       price: "9,900",
       imageUrl:
-        "https://i.namu.wiki/i/H1lgTKVqq5C1zCT34aj5qszjqEiI2p69xhkbWOC5XkNkUKBoNhs3FmRpe3njQH9-54PaugtBXskbQS6kY3c7v1HOouNRvmKa9AgFjhWJUdl9zzNPg7zLNgP2fUCBxhpbsJwvZX0ArnyeEzKy2HsXmA.webp",
+        "https://i.namu.wiki/i/8ltrXoF-jxGycmwp2tTjaBGD-G07HYnOAhaVLlFZLdtpm-dxm8DpOqkHme04EUvPQ4l58TQ2csy1ceCdBcZHhptH0roBq78G2k2GI3HCCxMjCl7PLoCVAGZbSfyetHFegZkP7ObW4E1I1B9EwamtLg.webp",
     },
     {
       id: 2,
       title: "람쥐썬더",
       price: "19,900",
       imageUrl:
-        "https://i.namu.wiki/i/dTDo-x4u_aOz43xSyPlsJcslnicsWEyomSGcb3QGJwG2jee6PpWvQV1F1GenhoUomBeNFZMe4CKtPUwlJY3eE5oGmGeyYGFmvewlCMNwjFi8f2jC7Rjn6rKoX-1mgLY7AQgHdJIkBuoAR1zfEX3rVg.webp",
+        "https://i.namu.wiki/i/xH5mH5zoISf_HYoLS6XN0nk7HxchX6yJPBd0tHW_2Ml1MNU-phaOi6d3VC4GacWBd5EITAtsw9zIPIymTPM9pCk3Dnji8pTCy8ud5VkzZTP-Y7ea8iJeNVERjqugfC66-lHrCd-7GhmDlHP1h1X0ZA.webp",
     },
     {
       id: 3,
@@ -174,38 +181,92 @@ function Products() {
       imageUrl:
         "https://uploads.dailydot.com/2018/10/olli-the-polite-cat.jpg?q=65&auto=format&w=2270&ar=2:1&fit=crop",
     },
+    {
+      id: 6,
+      title: "Dancing Toothless",
+      price: "49,900",
+      imageUrl:
+        "https://media.tenor.com/2l4-h42qnmcAAAAi/toothless-dancing-toothless.gif",
+    },
+    {
+      id: 8,
+      title: "Happy Cat",
+      price: "49,900",
+      imageUrl: "https://media1.tenor.com/m/_hUq1BSUsiMAAAAC/cat-cute.gif",
+    },
+    {
+      id: 9,
+      title: "Dancing Dog",
+      price: "49,900",
+      imageUrl: "https://media.tenor.com/dqH6ZBgOvMUAAAAi/dog-dance.gif",
+    },
     // Add more products as needed
   ];
 
   return (
-    <Container>
-      <Main>
-        {/**메인 제품 칸*/}
-        {products.map((product) => (
-          <ProductCard key={product.id}>
-            <ProductImage src={product.imageUrl} alt={product.title} />
-            <ProductTitle>{product.title}</ProductTitle>
-            <ProductPrice>{product.price}</ProductPrice>
-            <AddCart
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => addCart(product)}>
-              Add Cart
-            </AddCart>
-          </ProductCard>
-        ))}
-      </Main>
-      <CartWrapper>
-        <button onClick={onClick}>전송</button>
-        {cart.map((product) => (
-          <CartList>
-            {product.title} / {product.price}
-          </CartList>
-        ))}
-      </CartWrapper>
+    <>
+      <Container>
+        <Banner>배너이올시다 Slider 애니메이션 넣기</Banner>
+        <ProductSection>
+          <AnimatePresence>
+            {/**메인 제품 칸*/}
+            <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+              {fakeproducts.map((product) => (
+                <GridItem>
+                  <ProductCard
+                    layoutId={product.id + ""}
+                    key={product.id}
+                    onClick={() => onProductClicked(product.id + "")}>
+                    <Product productInfo={product} />
+                    <AddCart
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => addCart(product)}>
+                      Add Cart
+                    </AddCart>
+                  </ProductCard>
+                </GridItem>
+              ))}
+            </Grid>
+          </AnimatePresence>
+        </ProductSection>
+
+        <CartWrapper>
+          <button onClick={onClick}>API 전송 테스트</button>
+          {cart.map((product) => (
+            <CartList key={product.id}>
+              {product.title} / {product.price}
+            </CartList>
+          ))}
+        </CartWrapper>
+
+        {bigProductMatch ? (
+          <>
+            <Overlay onClick={onOverlayClicked} animate={{ opacity: 1 }} />
+            <AnimatePresence>
+              <motion.div
+                layoutId={bigProductMatch.params.productId + ""}
+                style={{
+                  position: "fixed",
+                  width: "500px",
+                  height: "500px",
+                  backgroundColor: "tomato",
+                  top: 300,
+                  left: 0,
+                  right: 0,
+                  margin: "0 auto",
+                }}>
+                <Box p="4" bg="green.400">
+                  1234
+                </Box>
+              </motion.div>
+            </AnimatePresence>
+          </>
+        ) : null}
+      </Container>
       <Footer />
-    </Container>
+    </>
   );
 }
 
-export default Products;
+export default Main;
