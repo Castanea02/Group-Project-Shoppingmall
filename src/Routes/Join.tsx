@@ -1,5 +1,5 @@
 function Join() {
-  return <div></div>;
+  return <div>Hello Join!</div>;
 }
 
 export default Join;
