@@ -16,7 +16,7 @@ const Banner = styled(motion.div)`
   background-color: linear-gradient(#e66465, #9198e5);
   background-size: cover;
   background-repeat: no-repeat;
-  overflow: hidden;
+  margin-bottom: 50px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 `;
 
