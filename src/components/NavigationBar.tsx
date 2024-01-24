@@ -22,8 +22,8 @@ import { SearchIcon } from "@chakra-ui/icons";
 import Header from "./Header";
 
 const Section = styled.div`
-  color: whitesmoke;
-  background-color: #333333;
+  color: black;
+  background-color: whitesmoke;
   position: fixed;
   width: 100%;
   display: flex;
@@ -70,10 +70,10 @@ const NavigationBar = () => {
           <Input placeholder="Search?" htmlSize={20} width="auto"></Input>
           <ButtonGroup gap="2">
             <Link to="/join">
-              <Button colorScheme="teal">회원가입</Button>
+              <Button colorScheme="purple">회원가입</Button>
             </Link>
             <Link to="/login">
-              <Button colorScheme="teal">로그인</Button>
+              <Button colorScheme="purple">로그인</Button>
             </Link>
           </ButtonGroup>
         </Flex>

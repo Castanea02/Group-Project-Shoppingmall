@@ -13,7 +13,6 @@ const Banner = styled(motion.div)`
   height: 720px;
   width: 100vw;
   font-size: 36px;
-  background-color: linear-gradient(#e66465, #9198e5);
   background-size: cover;
   background-repeat: no-repeat;
   margin-bottom: 50px;
@@ -123,6 +122,7 @@ function Main() {
   const bigProductMatch = useRouteMatch<{ productId: string }>(
     "/product/:productId"
   );
+
   //Cart 추가 함수
   const addCart = (data: IProduct, e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
@@ -133,7 +133,7 @@ function Main() {
   /**API 전송 테스트 cart내용 모두를 body에 담아서 node로 전송 */
   const onClick = () => {
     //Node 서버로 Post 요청
-    fetch(`${backAdd}/productList`, {
+    fetch(`${backAdd}/api/productList`, {
       method: "post",
       headers: {
         "content-type": "application/json",
@@ -238,7 +238,7 @@ function Main() {
                     <Product productInfo={product} />
                     <Button
                       mt={5}
-                      colorScheme="blue"
+                      colorScheme="purple"
                       onClick={(e) => addCart(product, e)}>
                       Add Cart
                     </Button>

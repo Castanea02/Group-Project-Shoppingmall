@@ -28,6 +28,12 @@ const App = () => {
         <Route path="/products">
           <NavigationBar />
         </Route>
+        <Route path="/join">
+          <Join />
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
         <Route path={["/", "/product/:productId"]}>
           <NavigationBar />
           <Main />
