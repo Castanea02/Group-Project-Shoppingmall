@@ -122,9 +122,7 @@ function Main() {
   const [cart, setCart] = useState<IProduct[]>([]);
   const history = useHistory();
 
-  const bigProductMatch = useRouteMatch<{ productId: string }>(
-    "/product/:productId"
-  );
+  const bigProductMatch = useRouteMatch<{ productId: string }>("/product/:productId");
 
   //Cart 추가 함수
   const addCart = (data: IProduct, e: React.MouseEvent<HTMLElement>) => {
@@ -164,48 +162,42 @@ function Main() {
       id: 1,
       title: "너굴맨",
       price: "9,900",
-      imageUrl:
-        "https://i.namu.wiki/i/8ltrXoF-jxGycmwp2tTjaBGD-G07HYnOAhaVLlFZLdtpm-dxm8DpOqkHme04EUvPQ4l58TQ2csy1ceCdBcZHhptH0roBq78G2k2GI3HCCxMjCl7PLoCVAGZbSfyetHFegZkP7ObW4E1I1B9EwamtLg.webp",
+      imageUrl: "https://i.namu.wiki/i/8ltrXoF-jxGycmwp2tTjaBGD-G07HYnOAhaVLlFZLdtpm-dxm8DpOqkHme04EUvPQ4l58TQ2csy1ceCdBcZHhptH0roBq78G2k2GI3HCCxMjCl7PLoCVAGZbSfyetHFegZkP7ObW4E1I1B9EwamtLg.webp",
       description: "이 너굴맨은 행운을 가져다 줍니다.",
     },
     {
       id: 2,
       title: "람쥐썬더",
       price: "19,900",
-      imageUrl:
-        "https://i.namu.wiki/i/xH5mH5zoISf_HYoLS6XN0nk7HxchX6yJPBd0tHW_2Ml1MNU-phaOi6d3VC4GacWBd5EITAtsw9zIPIymTPM9pCk3Dnji8pTCy8ud5VkzZTP-Y7ea8iJeNVERjqugfC66-lHrCd-7GhmDlHP1h1X0ZA.webp",
+      imageUrl: "https://i.namu.wiki/i/xH5mH5zoISf_HYoLS6XN0nk7HxchX6yJPBd0tHW_2Ml1MNU-phaOi6d3VC4GacWBd5EITAtsw9zIPIymTPM9pCk3Dnji8pTCy8ud5VkzZTP-Y7ea8iJeNVERjqugfC66-lHrCd-7GhmDlHP1h1X0ZA.webp",
       description: "이 람쥐썬더는 행운을 가져다 줍니다.",
     },
     {
       id: 3,
       title: "Chipi Chipi Chapa Chapa",
       price: "29,900",
-      imageUrl:
-        "https://media1.tenor.com/m/Jc9jT66AJRwAAAAd/chipi-chipi-chapa-chapa.gif",
+      imageUrl: "https://media1.tenor.com/m/Jc9jT66AJRwAAAAd/chipi-chipi-chapa-chapa.gif",
       description: "Chipi Chipi Chapa Chapa Des",
     },
     {
       id: 4,
       title: "원빈",
       price: "39,900",
-      imageUrl:
-        "https://mblogthumb-phinf.pstatic.net/20110908_43/oiktoail_1315461319710Wj8g8_JPEG/fg.JPG?type=w420",
+      imageUrl: "https://mblogthumb-phinf.pstatic.net/20110908_43/oiktoail_1315461319710Wj8g8_JPEG/fg.JPG?type=w420",
       description: "원빈개",
     },
     {
       id: 5,
       title: "Polite Cat",
       price: "49,900",
-      imageUrl:
-        "https://uploads.dailydot.com/2018/10/olli-the-polite-cat.jpg?q=65&auto=format&w=2270&ar=2:1&fit=crop",
+      imageUrl: "https://uploads.dailydot.com/2018/10/olli-the-polite-cat.jpg?q=65&auto=format&w=2270&ar=2:1&fit=crop",
       description: "고양이",
     },
     {
       id: 6,
       title: "Dancing Toothless",
       price: "49,900",
-      imageUrl:
-        "https://media.tenor.com/2l4-h42qnmcAAAAi/toothless-dancing-toothless.gif",
+      imageUrl: "https://media.tenor.com/2l4-h42qnmcAAAAi/toothless-dancing-toothless.gif",
       description: "댄싱 투슬리스",
     },
     {
@@ -236,14 +228,9 @@ function Main() {
             <Grid templateColumns="repeat(3, 1fr)" gap={4}>
               {fakeproducts.map((product) => (
                 <GridItem key={product.id}>
-                  <ProductCard
-                    layoutId={product.id + ""}
-                    onClick={() => onProductClicked(product.id + "")}>
+                  <ProductCard layoutId={product.id + ""} onClick={() => onProductClicked(product.id + "")}>
                     <Product productInfo={product} />
-                    <Button
-                      mt={5}
-                      colorScheme="purple"
-                      onClick={(e) => addCart(product, e)}>
+                    <Button mt={5} colorScheme="purple" onClick={(e) => addCart(product, e)}>
                       Add Cart
                     </Button>
                   </ProductCard>
@@ -267,12 +254,7 @@ function Main() {
             <Overlay onClick={onOverlayClicked} animate={{ opacity: 1 }} />
             <AnimatePresence>
               <BigProductCard layoutId={bigProductMatch.params.productId + ""}>
-                <h1>
-                  {
-                    fakeproducts[Number(bigProductMatch.params.productId) - 1]
-                      .description
-                  }
-                </h1>
+                <h1>{fakeproducts[Number(bigProductMatch.params.productId) - 1].description}</h1>
               </BigProductCard>
             </AnimatePresence>
           </>

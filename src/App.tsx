@@ -29,9 +29,11 @@ const App = () => {
           <NavigationBar />
         </Route>
         <Route path="/join">
+          <NavigationBar />
           <Join />
         </Route>
         <Route path="/login">
+          <NavigationBar />
           <Login />
         </Route>
         <Route path={["/", "/product/:productId"]}>
