@@ -9,6 +9,13 @@ import ImageSlider from "../components/BannerSlider";
 
 const backAdd = process.env.REACT_APP_NODE_ADDRESS;
 
+/**전체 구역 */
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+/**배너 컴포넌트 */
 const Banner = styled(motion.div)`
   height: 720px;
   width: 100vw;
@@ -17,11 +24,6 @@ const Banner = styled(motion.div)`
   background-repeat: no-repeat;
   margin-bottom: 50px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 
 /**제품 모여있는 구역 지정 */
@@ -55,6 +57,19 @@ const BigProductCard = styled(motion.div)`
   right: 0;
   margin: 0 auto;
   padding: 16px;
+`;
+
+/** 제품 클릭시 배경 오버레이*/
+const Overlay = styled(motion.div)`
+  position: absolute;
+  padding-top: 40px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 0;
 `;
 
 /** (임시) 카트 내용 구역*/
@@ -94,19 +109,6 @@ const CartList = styled.div<{ cart?: string }>`
   }
 `;
 
-/** 제품 클릭시 배경 오버레이*/
-const Overlay = styled(motion.div)`
-  position: absolute;
-  padding-top: 40px;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  opacity: 0;
-`;
-
 //Interfaces
 interface IProduct {
   id: number;
@@ -119,6 +121,7 @@ interface IProduct {
 function Main() {
   const [cart, setCart] = useState<IProduct[]>([]);
   const history = useHistory();
+
   const bigProductMatch = useRouteMatch<{ productId: string }>(
     "/product/:productId"
   );
@@ -155,6 +158,7 @@ function Main() {
   };
 
   //Fake Product Object
+
   const fakeproducts: IProduct[] = [
     {
       id: 1,

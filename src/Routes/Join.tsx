@@ -45,6 +45,8 @@ function Join() {
         <Center>
           <Title>Art'O</Title>
         </Center>
+        <Label>name</Label>
+        <Input {...register("name")} placeholder="name" name="name" />
         <Label>ID</Label>
         <Input {...register("id")} placeholder="id" name="id" />
         <Button mt={2}>중복 확인</Button>

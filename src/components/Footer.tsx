@@ -9,7 +9,7 @@ const FooterComp = styled.footer`
 `;
 
 function Footer() {
-  return <FooterComp>ⓒ 2024 Shopping mall</FooterComp>;
+  return <FooterComp>ⓒ {new Date().getFullYear()} Shopping mall</FooterComp>;
 }
 
 export default Footer;
