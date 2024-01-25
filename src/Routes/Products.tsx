@@ -1,4 +1,5 @@
 function Products() {
-  return <h1>Products</h1>;
+  return <div>Hello Products!</div>;
 }
+
 export default Products;
