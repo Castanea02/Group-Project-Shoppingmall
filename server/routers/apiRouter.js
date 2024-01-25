@@ -1,9 +1,5 @@
 import express from "express";
-import {
-  postLogin,
-  postJoin,
-  postProductList,
-} from "../controllers/apiController";
+import { postLogin, postJoin, postProductList } from "../controllers/apiController";
 
 const apiRouter = express.Router();
 

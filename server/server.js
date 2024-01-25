@@ -1,6 +1,10 @@
 import express from "express";
 import cors from "cors";
+<<<<<<< HEAD
+import "./db";
+=======
 import apiRouter from "./routers/apiRouter";
+>>>>>>> 9a4e5f43965c2c91a08c9f817ce810f30ded5894
 
 const app = express();
 app.use(express.json());
