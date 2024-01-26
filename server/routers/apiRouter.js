@@ -1,5 +1,10 @@
 import express from "express";
-import { postLogin, postJoin, postProductList } from "../controllers/apiController";
+import {
+  postLogin,
+  postJoin,
+  postProductList,
+  logout,
+} from "../controllers/apiController";
 
 const apiRouter = express.Router();
 
@@ -7,5 +12,6 @@ const apiRouter = express.Router();
 apiRouter.post("/productList", postProductList);
 apiRouter.post("/join", postJoin);
 apiRouter.post("/login", postLogin);
+apiRouter.post("/logout", logout);
 
 export default apiRouter;
