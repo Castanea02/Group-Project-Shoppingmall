@@ -7,12 +7,9 @@ import WayToCome from "./Routes/WayToCome";
 import HairStyles from "./Routes/HairStyles";
 import Join from "./Routes/Join";
 import Login from "./Routes/Login";
-import { useRecoilValue } from "recoil";
-import { isUserAtom } from "./atoms";
 
 // App Component
 const App = () => {
-  const isUser = useRecoilValue(isUserAtom);
   return (
     <BrowserRouter>
       <Switch>

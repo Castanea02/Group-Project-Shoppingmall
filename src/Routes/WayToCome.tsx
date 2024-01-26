@@ -1,3 +1,4 @@
+/**오시는 길 화면 */
 function WayToCome() {
   return (
     <div>

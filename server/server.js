@@ -1,7 +1,6 @@
 import express from "express";
 import session from "express-session";
-import MongoStore from "connect-mongo"; //sessions Store
-
+import MongoStore from "connect-mongo";
 import cors from "cors";
 import "./db";
 import apiRouter from "./routers/apiRouter";
@@ -19,9 +18,13 @@ app.use(cors(corsOptions));
 app.use(
   session({
     secret: process.env.COOKIE_SECRET,
-    resave: true,
-    saveUninitialized: true,
-    //store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
+    cookie: {
+      maxAge: 5000, // 세션 쿠키의 만료 시간 (밀리초 기준, 여기서는 1시간)
+      httpOnly: true,
+    },
   })
 );
 

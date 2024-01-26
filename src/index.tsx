@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { ChakraProvider } from "@chakra-ui/react";
 import { RecoilRoot } from "recoil";
 
@@ -8,10 +9,14 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
+const queryClient = new QueryClient();
+
 root.render(
   <RecoilRoot>
-    <ChakraProvider>
-      <App />
-    </ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider>
+        <App />
+      </ChakraProvider>
+    </QueryClientProvider>
   </RecoilRoot>
 );

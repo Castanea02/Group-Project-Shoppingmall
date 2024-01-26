@@ -1,28 +1,11 @@
 import { styled } from "styled-components";
-import { Button, Center, Container, Input } from "@chakra-ui/react";
+import { Button, Center, Container, Input, useToast } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
-
-const Title = styled.div`
-  color: black;
-  font-size: 64px;
-  font-weight: bold;
-`;
-
-const Label = styled.div`
-  color: black;
-  font-size: 14px;
-  font-weight: bold;
-  padding-top: 5px;
-`;
-
-const ErrorLabel = styled.div`
-  color: red;
-  font-size: 14px;
-  font-weight: bold;
-  padding-top: 5px;
-`;
+import { ErrorLabel, Label, Title } from "../components/FormLabel";
+import { useMutation } from "react-query";
+import { useJoinMutation } from "../api";
 
 interface IJoinForm {
   name: string;
@@ -31,39 +14,46 @@ interface IJoinForm {
   confPw: string;
   email: string;
 }
-
+/**회원가입  */
 function Join() {
+  const [duplicateId, setDuplicateId] = useState(false);
+  const mutation = useMutation(useJoinMutation);
   const history = useHistory();
-  const [idCheck, setIdCheck] = useState(false);
+  const toast = useToast();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<IJoinForm>();
 
-  const onSubmit: SubmitHandler<IJoinForm> = (data) => {
-    setIdCheck(false);
-    fetch(`${process.env.REACT_APP_NODE_ADDRESS}/api/join`, {
-      method: "post",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.response === 201) {
-          history.push("/login");
-        }
-        if (data.response === "중복") {
-          setIdCheck(true);
-        }
-      });
-    // if (data.pw != data.confPw) {
-    //   console.log("⚠️ 비밀번호가 일치하지 않습니다.");
-    // } else {
-
-    // }
+  const onSubmit: SubmitHandler<IJoinForm> = async (formData) => {
+    try {
+      // useMutation 훅을 호출하여 회원가입 비동기 작업 실행
+      const data = await mutation.mutateAsync(formData);
+      if (data.success) {
+        toast({
+          position: "top",
+          title: `회원가입 성공`,
+          description: ``,
+          status: "success",
+          duration: 3000,
+          isClosable: false,
+        });
+        history.push("/");
+      } else {
+        setDuplicateId(true);
+        toast({
+          position: "top",
+          title: "회원가입 실패",
+          description: "입력하신 내용을 다시 확인해주세요.",
+          status: "error",
+          duration: 3000,
+          isClosable: false,
+        });
+      }
+    } catch (error) {
+      console.error("로그인 실패:", error);
+    }
   };
 
   return (
@@ -83,7 +73,7 @@ function Join() {
         <Label>ID</Label>
         <Input {...register("id", { required: true })} placeholder="id" />
         {errors.id && <ErrorLabel>아이디를 입력해주세요</ErrorLabel>}
-        {idCheck ? <ErrorLabel>중복된 계정입니다.</ErrorLabel> : ""}
+        {duplicateId ? <ErrorLabel>중복된 계정입니다.</ErrorLabel> : ""}
         <Button mt={2}>중복 확인</Button>
         <br />
 

@@ -1,5 +1,4 @@
-import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -19,6 +18,7 @@ const SliderContent = styled(motion.div)`
   padding: 0;
 `;
 
+/**메인 페이지 슬라이더 컴포넌트 */
 function ImageSlider() {
   // Slick 슬라이더 설정
   const settings = {

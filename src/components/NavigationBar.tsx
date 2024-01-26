@@ -33,8 +33,9 @@ const Section = styled.div`
   z-index: 99;
 `;
 
+/**네비게이션 컴포넌트 */
 const NavigationBar = () => {
-  const setterFn = useSetRecoilState(isUserAtom);
+  const isLogin = useSetRecoilState(isUserAtom);
   const isUser = useRecoilValue(isUserAtom);
   const toast = useToast();
 
@@ -48,9 +49,7 @@ const NavigationBar = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setterFn(false);
-        document.cookie =
-          "connect.sid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        isLogin(false);
         toast({
           position: "top",
           title: "로그아웃 성공",
