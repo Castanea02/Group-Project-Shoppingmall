@@ -1,39 +1,54 @@
 import { Container, Center, Input, Button } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
+import { useSetRecoilState } from "recoil";
+import { isUserAtom } from "../atoms";
+import { useHistory } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
+import { useMutation } from "react-query";
+import { useLoginMutation } from "../api";
+import { ErrorLabel, Label, Title } from "../components/FormLabel";
 
-const Title = styled.div`
-  color: black;
-  font-size: 64px;
-  font-weight: bold;
-`;
-
-const Label = styled.div`
-  color: black;
-  font-size: 14px;
-  font-weight: bold;
-  padding-top: 5px;
-`;
-
+/** 로그인 */
 function Login() {
-<<<<<<< HEAD
-  return <div>54321</div>;
-=======
+  const isLogin = useSetRecoilState(isUserAtom);
+  const mutation = useMutation(useLoginMutation);
+  const history = useHistory();
+  const toast = useToast();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data: any) => {
-    fetch(`${process.env.REACT_APP_NODE_ADDRESS}/api/login`, {
-      method: "post",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+
+  const onSubmit = async (formData: any) => {
+    try {
+      // useMutation 훅을 호출하여 로그인 비동기 작업 실행
+      const data = await mutation.mutateAsync(formData);
+      if (data.success) {
+        isLogin(true);
+        toast({
+          position: "top",
+          title: `로그인 성공`,
+          description: `안녕하세요 ${data.user.name}님`,
+          status: "success",
+          duration: 3000,
+          isClosable: false,
+        });
+        history.push("/");
+      } else {
+        toast({
+          position: "top",
+          title: "로그인 실패",
+          description:
+            "아이디또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.",
+          status: "error",
+          duration: 3000,
+          isClosable: false,
+        });
+      }
+    } catch (error) {
+      console.error("로그인 실패:", error);
+    }
   };
 
   return (
@@ -48,15 +63,16 @@ function Login() {
           <Title>Art'O</Title>
         </Center>
         <Label>ID</Label>
-        <Input {...register("id")} placeholder="id" name="id" />
-        <br />
+        <Input {...register("id", { required: true })} placeholder="id" />
+        {errors.id && <ErrorLabel>아이디를 입력해주세요</ErrorLabel>}
+
         <Label>Password</Label>
         <Input
-          {...register("pw")}
+          {...register("pw", { required: true })}
           type="password"
           placeholder="Password"
-          name="pw"
         />
+        {errors.pw && <ErrorLabel>비밀번호를 입력해주세요</ErrorLabel>}
         <Button type="submit" mt={2} colorScheme="purple">
           Submit
         </Button>
@@ -64,7 +80,6 @@ function Login() {
       <a href="/">뒤로</a>
     </Container>
   );
->>>>>>> 9a4e5f43965c2c91a08c9f817ce810f30ded5894
 }
 
 export default Login;

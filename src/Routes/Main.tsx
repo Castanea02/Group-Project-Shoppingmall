@@ -6,6 +6,8 @@ import Product from "../components/Product";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { Button, Grid, GridItem } from "@chakra-ui/react";
 import ImageSlider from "../components/BannerSlider";
+import { useQuery } from "react-query";
+import { fetchProduct, fetchSendAddcart } from "../api";
 
 const backAdd = process.env.REACT_APP_NODE_ADDRESS;
 
@@ -117,32 +119,43 @@ interface IProduct {
   imageUrl: string;
   description: string;
 }
-
+/**메인 첫 화면 */
 function Main() {
   const [cart, setCart] = useState<IProduct[]>([]);
   const history = useHistory();
 
-  const bigProductMatch = useRouteMatch<{ productId: string }>("/product/:productId");
+  const bigProductMatch = useRouteMatch<{ productId: string }>(
+    "/product/:productId"
+  );
+
+  const { isLoading: productLoading, data: product } = useQuery(
+    ["product"],
+    fetchProduct
+  );
+
+  const {
+    isLoading: sendCartLoading,
+    data: sendCart,
+    refetch,
+  } = useQuery(
+    ["sendCart"],
+    () => {
+      fetchSendAddcart(cart);
+    },
+    {
+      enabled: false,
+    }
+  );
 
   //Cart 추가 함수
   const addCart = (data: IProduct, e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     setCart((prev) => [...prev, data]);
-    console.log(cart);
   };
 
   /**API 전송 테스트 cart내용 모두를 body에 담아서 node로 전송 */
   const onClick = () => {
-    //Node 서버로 Post 요청
-    fetch(`${backAdd}/api/productList`, {
-      method: "post",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(cart),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+    refetch();
   };
 
   //**제품 클릭시 /product/${productId}로 URL 변경 */
@@ -155,90 +168,35 @@ function Main() {
     history.push("/");
   };
 
-  //Fake Product Object
-
-  const fakeproducts: IProduct[] = [
-    {
-      id: 1,
-      title: "너굴맨",
-      price: "9,900",
-      imageUrl: "https://i.namu.wiki/i/8ltrXoF-jxGycmwp2tTjaBGD-G07HYnOAhaVLlFZLdtpm-dxm8DpOqkHme04EUvPQ4l58TQ2csy1ceCdBcZHhptH0roBq78G2k2GI3HCCxMjCl7PLoCVAGZbSfyetHFegZkP7ObW4E1I1B9EwamtLg.webp",
-      description: "이 너굴맨은 행운을 가져다 줍니다.",
-    },
-    {
-      id: 2,
-      title: "람쥐썬더",
-      price: "19,900",
-      imageUrl: "https://i.namu.wiki/i/xH5mH5zoISf_HYoLS6XN0nk7HxchX6yJPBd0tHW_2Ml1MNU-phaOi6d3VC4GacWBd5EITAtsw9zIPIymTPM9pCk3Dnji8pTCy8ud5VkzZTP-Y7ea8iJeNVERjqugfC66-lHrCd-7GhmDlHP1h1X0ZA.webp",
-      description: "이 람쥐썬더는 행운을 가져다 줍니다.",
-    },
-    {
-      id: 3,
-      title: "Chipi Chipi Chapa Chapa",
-      price: "29,900",
-      imageUrl: "https://media1.tenor.com/m/Jc9jT66AJRwAAAAd/chipi-chipi-chapa-chapa.gif",
-      description: "Chipi Chipi Chapa Chapa Des",
-    },
-    {
-      id: 4,
-      title: "원빈",
-      price: "39,900",
-      imageUrl: "https://mblogthumb-phinf.pstatic.net/20110908_43/oiktoail_1315461319710Wj8g8_JPEG/fg.JPG?type=w420",
-      description: "원빈개",
-    },
-    {
-      id: 5,
-      title: "Polite Cat",
-      price: "49,900",
-      imageUrl: "https://uploads.dailydot.com/2018/10/olli-the-polite-cat.jpg?q=65&auto=format&w=2270&ar=2:1&fit=crop",
-      description: "고양이",
-    },
-    {
-      id: 6,
-      title: "Dancing Toothless",
-      price: "49,900",
-      imageUrl: "https://media.tenor.com/2l4-h42qnmcAAAAi/toothless-dancing-toothless.gif",
-      description: "댄싱 투슬리스",
-    },
-    {
-      id: 7,
-      title: "Happy Cat",
-      price: "49,900",
-      imageUrl: "https://media1.tenor.com/m/_hUq1BSUsiMAAAAC/cat-cute.gif",
-      description: "햅삐햅삐햅삐",
-    },
-    {
-      id: 8,
-      title: "Dancing Dog",
-      price: "49,900",
-      imageUrl: "https://media.tenor.com/dqH6ZBgOvMUAAAAi/dog-dance.gif",
-      description: "Dancing Dog Desc",
-    },
-    // Add more products as needed
-  ];
-
   return (
     <>
       <Container>
         <Banner>
           <ImageSlider />
         </Banner>
-        <ProductSection>
-          <AnimatePresence>
-            <Grid templateColumns="repeat(3, 1fr)" gap={4}>
-              {fakeproducts.map((product) => (
-                <GridItem key={product.id}>
-                  <ProductCard layoutId={product.id + ""} onClick={() => onProductClicked(product.id + "")}>
-                    <Product productInfo={product} />
-                    <Button mt={5} colorScheme="purple" onClick={(e) => addCart(product, e)}>
-                      Add Cart
-                    </Button>
-                  </ProductCard>
-                </GridItem>
-              ))}
-            </Grid>
-          </AnimatePresence>
-        </ProductSection>
+        {productLoading ? null : (
+          <ProductSection>
+            <AnimatePresence>
+              <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+                {product?.map((product: any) => (
+                  <GridItem key={product.id}>
+                    <ProductCard
+                      layoutId={product.id + ""}
+                      onClick={() => onProductClicked(product.id + "")}>
+                      <Product productInfo={product} />
+                      <Button
+                        mt={5}
+                        colorScheme="purple"
+                        onClick={(e) => addCart(product, e)}>
+                        Add Cart
+                      </Button>
+                    </ProductCard>
+                  </GridItem>
+                ))}
+              </Grid>
+            </AnimatePresence>
+          </ProductSection>
+        )}
 
         <CartWrapper>
           <button onClick={onClick}>API 전송 테스트</button>
@@ -254,7 +212,12 @@ function Main() {
             <Overlay onClick={onOverlayClicked} animate={{ opacity: 1 }} />
             <AnimatePresence>
               <BigProductCard layoutId={bigProductMatch.params.productId + ""}>
-                <h1>{fakeproducts[Number(bigProductMatch.params.productId) - 1].description}</h1>
+                <h1>
+                  {
+                    product[Number(bigProductMatch.params.productId) - 1]
+                      .description
+                  }
+                </h1>
               </BigProductCard>
             </AnimatePresence>
           </>

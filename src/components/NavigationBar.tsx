@@ -8,18 +8,16 @@ import {
   Box,
   Heading,
   Spacer,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Tab,
   TabIndicator,
   TabList,
-  TabPanel,
-  TabPanels,
   Tabs,
+  useToast,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import Header from "./Header";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isUserAtom } from "../atoms";
 
 const Section = styled.div`
   color: black;
@@ -35,7 +33,33 @@ const Section = styled.div`
   z-index: 99;
 `;
 
+/**네비게이션 컴포넌트 */
 const NavigationBar = () => {
+  const isLogin = useSetRecoilState(isUserAtom);
+  const isUser = useRecoilValue(isUserAtom);
+  const toast = useToast();
+
+  const logout = () => {
+    fetch(`${process.env.REACT_APP_NODE_ADDRESS}/api/logout`, {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        isLogin(false);
+        toast({
+          position: "top",
+          title: "로그아웃 성공",
+          description: "Expired Session",
+          status: "success",
+          duration: 5000,
+          isClosable: false,
+        });
+      });
+  };
   return (
     <>
       <Section>
@@ -69,12 +93,22 @@ const NavigationBar = () => {
           <SearchIcon boxSize={6} />
           <Input placeholder="Search?" htmlSize={20} width="auto"></Input>
           <ButtonGroup gap="2">
-            <Link to="/join">
-              <Button colorScheme="purple">회원가입</Button>
-            </Link>
-            <Link to="/login">
-              <Button colorScheme="purple">로그인</Button>
-            </Link>
+            {isUser ? (
+              <Link to="/">
+                <Button onClick={logout} colorScheme="purple">
+                  로그아웃
+                </Button>
+              </Link>
+            ) : (
+              <>
+                <Link to="/join">
+                  <Button colorScheme="purple">회원가입</Button>
+                </Link>
+                <Link to="/login">
+                  <Button colorScheme="purple">로그인</Button>
+                </Link>
+              </>
+            )}
           </ButtonGroup>
         </Flex>
       </Section>

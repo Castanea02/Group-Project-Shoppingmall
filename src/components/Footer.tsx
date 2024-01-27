@@ -7,7 +7,7 @@ const FooterComp = styled.footer`
   text-align: center;
   box-shadow: 2px 2px 2px 2px gray;
 `;
-
+/**페이지 Footer */
 function Footer() {
   return <FooterComp>ⓒ {new Date().getFullYear()} Shopping mall</FooterComp>;
 }

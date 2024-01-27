@@ -1,5 +1,6 @@
 import { Box, Image, Badge } from "@chakra-ui/react";
 
+/**클릭 전 제품 그림 */
 function Product(data: any) {
   const property = {
     imageUrl: data.productInfo.imageUrl,
