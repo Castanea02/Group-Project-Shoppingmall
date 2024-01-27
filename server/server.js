@@ -22,7 +22,7 @@ app.use(
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
     cookie: {
-      maxAge: 5000, // 세션 쿠키의 만료 시간 (밀리초 기준, 여기서는 1시간)
+      maxAge: 60 * 60 * 1000, // 세션 쿠키의 만료 시간 (밀리초 기준, 여기서는 1시간)
       httpOnly: true,
     },
   })
@@ -32,6 +32,19 @@ app.use((req, res, next) => {
   req.sessionStore.all((error, sessions) => {
     console.log(sessions);
     next();
+  });
+});
+
+// 모든 세션 삭제 라우트
+app.get("/logoutAllSessions", (req, res) => {
+  // 세션 저장소에서 모든 세션 삭제
+  req.sessionStore.clear((error) => {
+    if (error) {
+      console.error(error);
+      return res.status(500).send("Internal Server Error");
+    }
+
+    return res.status(200).send("All sessions have been logged out");
   });
 });
 

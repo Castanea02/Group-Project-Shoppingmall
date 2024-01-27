@@ -5,6 +5,7 @@ import {
   postProductList,
   logout,
   fakeProduct,
+  checkSession,
 } from "../controllers/apiController";
 
 const apiRouter = express.Router();
@@ -15,5 +16,6 @@ apiRouter.post("/join", postJoin);
 apiRouter.post("/login", postLogin);
 apiRouter.post("/logout", logout);
 apiRouter.get("/fakeProducts", fakeProduct);
+apiRouter.get("/check-session", checkSession);
 
 export default apiRouter;

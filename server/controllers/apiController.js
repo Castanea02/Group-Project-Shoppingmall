@@ -160,3 +160,23 @@ export const fakeProduct = (req, res) => {
 
   return res.json(fakeProducts);
 };
+
+/**사용자 로그인 시 주기적 세션 체크 */
+export const checkSession = (req, res) => {
+  console.log("✅ Check Session API");
+  try {
+    // 세션 상태를 확인하고 클라이언트에게 응답
+    if (req.session.user) {
+      // 세션이 유효한 경우
+      return res.json({ success: true });
+    } else {
+      // 세션이 만료된 경우
+      return res.json({ success: false });
+    }
+  } catch (error) {
+    console.error("세션 확인 실패:", error);
+    return res
+      .status(500)
+      .json({ success: false, error: "Internal Server Error" });
+  }
+};
