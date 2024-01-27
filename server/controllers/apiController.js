@@ -18,7 +18,7 @@ export const postJoin = async (req, res) => {
   // req
   console.log("✅ Join API");
   const data = req.body;
-  console.log(data);
+
   try {
     /** id가 존재하는지 확인 */
     const idCheck = await Customers.findOne({ userid: data.id });
@@ -54,7 +54,7 @@ export const postLogin = async (req, res) => {
   try {
     const data = req.body;
     const user = await Customers.findOne({ userid: data.id });
-    console.log(user);
+
     /** 아이디가 존재하는지 확인 */
     if (!user) {
       return res.status(400).send({ success: false });
@@ -164,6 +164,7 @@ export const fakeProduct = (req, res) => {
 /**사용자 로그인 시 주기적 세션 체크 */
 export const checkSession = (req, res) => {
   console.log("✅ Check Session API");
+  console.log(req.session.user, "req!");
   try {
     // 세션 상태를 확인하고 클라이언트에게 응답
     if (req.session.user) {

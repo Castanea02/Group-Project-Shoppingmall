@@ -11,7 +11,11 @@ function SessionChecker() {
       try {
         // 세션 확인을 위한 서버 요청을 보내고 세션 상태를 받아옴
         const response = await fetch(
-          `${process.env.REACT_APP_NODE_ADDRESS}/api/check-session`
+          `${process.env.REACT_APP_NODE_ADDRESS}/api/check-session`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
         );
         const data = await response.json();
 
@@ -24,7 +28,7 @@ function SessionChecker() {
             title: "세션 만료",
             description: "세션이 만료 되었습니다. 다시 로그인 해주세요.",
             status: "info",
-            duration: 60 * 60 * 1000,
+            duration: 3000,
             isClosable: false,
           });
         }
