@@ -174,56 +174,7 @@ function Main() {
         <Banner>
           <ImageSlider />
         </Banner>
-        {productLoading ? null : (
-          <ProductSection>
-            <AnimatePresence>
-              <Grid templateColumns="repeat(3, 1fr)" gap={4}>
-                {product?.map((product: any) => (
-                  <GridItem key={product.id}>
-                    <ProductCard
-                      layoutId={product.id + ""}
-                      onClick={() => onProductClicked(product.id + "")}>
-                      <Product productInfo={product} />
-                      <Button
-                        mt={5}
-                        colorScheme="purple"
-                        onClick={(e) => addCart(product, e)}>
-                        Add Cart
-                      </Button>
-                    </ProductCard>
-                  </GridItem>
-                ))}
-              </Grid>
-            </AnimatePresence>
-          </ProductSection>
-        )}
-
-        <CartWrapper>
-          <button onClick={onClick}>API 전송 테스트</button>
-          {cart.map((product) => (
-            <CartList key={product.id}>
-              {product.title} / {product.price}
-            </CartList>
-          ))}
-        </CartWrapper>
-
-        {bigProductMatch ? (
-          <>
-            <Overlay onClick={onOverlayClicked} animate={{ opacity: 1 }} />
-            <AnimatePresence>
-              <BigProductCard layoutId={bigProductMatch.params.productId + ""}>
-                <h1>
-                  {
-                    product[Number(bigProductMatch.params.productId) - 1]
-                      .description
-                  }
-                </h1>
-              </BigProductCard>
-            </AnimatePresence>
-          </>
-        ) : null}
       </Container>
-      <Footer />
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import {
   Button,
@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import Header from "./Header";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { isUserAtom } from "../atoms";
 
 const Section = styled.div`
@@ -34,11 +34,10 @@ const Section = styled.div`
 `;
 
 /**네비게이션 컴포넌트 */
-const NavigationBar = () => {
+const NavigationBar = (props: any) => {
   const isLogin = useSetRecoilState(isUserAtom);
-  const isUser = useRecoilValue(isUserAtom);
+  const location = useLocation();
   const toast = useToast();
-
   const logout = () => {
     fetch(`${process.env.REACT_APP_NODE_ADDRESS}/api/logout`, {
       method: "post",
@@ -60,6 +59,24 @@ const NavigationBar = () => {
         });
       });
   };
+  /**네비게이션 바 인디케이터 고정용 location.pathname 정규표현식으로 URL가져와서 고정하기 */
+  function getIndexFromPathname(pathname: string) {
+    const pattern = /^(\/|\/styles|\/products|\/waytocome|\/product\/\d+)$/;
+    if (pattern.test(pathname)) {
+      if (pathname === "/") {
+        return 0; // 홈 페이지
+      } else if (pathname === "/styles") {
+        return 1; // 스타일 페이지
+      } else if (pathname === "/products" || pathname.startsWith("/product/")) {
+        return 2; // 제품 페이지
+      } else if (pathname === "/waytocome") {
+        return 3; // 오시는 길 페이지
+      } else {
+        return 0; // 기본값은 홈 페이지
+      }
+    }
+  }
+
   return (
     <>
       <Section>
@@ -67,7 +84,10 @@ const NavigationBar = () => {
           <Box p="2">
             <Heading size="md">Art'O</Heading>
           </Box>
-          <Tabs position="relative" variant="unstyled">
+          <Tabs
+            position="relative"
+            variant="unstyled"
+            index={getIndexFromPathname(location.pathname)}>
             <TabList>
               <Link to="/">
                 <Tab>홈</Tab>
@@ -93,7 +113,7 @@ const NavigationBar = () => {
           <SearchIcon boxSize={6} />
           <Input placeholder="Search?" htmlSize={20} width="auto"></Input>
           <ButtonGroup gap="2">
-            {isUser ? (
+            {props.loggedIn ? (
               <Link to="/">
                 <Button onClick={logout} colorScheme="purple">
                   로그아웃

@@ -155,6 +155,34 @@ export const fakeProduct = (req, res) => {
       imageUrl: "https://media.tenor.com/dqH6ZBgOvMUAAAAi/dog-dance.gif",
       description: "Dancing Dog Desc",
     },
+    {
+      id: 9,
+      title: "Dancing Dog",
+      price: "49,900",
+      imageUrl: "https://media.tenor.com/dqH6ZBgOvMUAAAAi/dog-dance.gif",
+      description: "Dancing Dog Desc",
+    },
+    {
+      id: 10,
+      title: "Dancing Dog",
+      price: "49,900",
+      imageUrl: "https://media.tenor.com/dqH6ZBgOvMUAAAAi/dog-dance.gif",
+      description: "Dancing Dog Desc",
+    },
+    {
+      id: 11,
+      title: "Dancing Dog",
+      price: "49,900",
+      imageUrl: "https://media.tenor.com/dqH6ZBgOvMUAAAAi/dog-dance.gif",
+      description: "Dancing Dog Desc",
+    },
+    {
+      id: 12,
+      title: "Dancing Dog",
+      price: "49,900",
+      imageUrl: "https://media.tenor.com/dqH6ZBgOvMUAAAAi/dog-dance.gif",
+      description: "Dancing Dog Desc",
+    },
     // Add more products as needed
   ];
 

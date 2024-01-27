@@ -34,7 +34,7 @@ function Login() {
           duration: 3000,
           isClosable: false,
         });
-        history.push("/");
+        history.goBack();
       } else {
         toast({
           position: "top",

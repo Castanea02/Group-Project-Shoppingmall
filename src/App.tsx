@@ -14,36 +14,34 @@ import { isUserAtom } from "./atoms";
 // App Component
 const App = () => {
   const loggedIn = useRecoilValue(isUserAtom);
+
   return (
     <>
       {loggedIn ? <SessionChecker /> : null}
       <BrowserRouter>
         <Switch>
-          <Route path="/products">
-            <NavigationBar />
-            <Products />
+          <Route path={["/products", "/product/:productId"]}>
+            <NavigationBar loggedIn={loggedIn} />
+            <Products loggedIn={loggedIn} />
           </Route>
           <Route path="/waytocome">
-            <NavigationBar />
+            <NavigationBar loggedIn={loggedIn} />
             <WayToCome />
           </Route>
           <Route path="/styles">
-            <NavigationBar />
+            <NavigationBar loggedIn={loggedIn} />
             <HairStyles />
           </Route>
-          <Route path="/products">
-            <NavigationBar />
-          </Route>
           <Route path="/join">
-            <NavigationBar />
+            <NavigationBar loggedIn={loggedIn} />
             <Join />
           </Route>
           <Route path="/login">
-            <NavigationBar />
+            <NavigationBar loggedIn={loggedIn} />
             <Login />
           </Route>
-          <Route path={["/", "/product/:productId"]}>
-            <NavigationBar />
+          <Route path="/">
+            <NavigationBar loggedIn={loggedIn} />
             <Main />
           </Route>
         </Switch>
