@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 
 app.use(
+  //세션 초기화 정의
   session({
     secret: process.env.COOKIE_SECRET,
     resave: false,
@@ -28,12 +29,13 @@ app.use(
   })
 );
 
-// app.use((req, res, next) => {
-//   req.sessionStore.all((error, sessions) => {
-//     console.log(sessions);
-//     next();
-//   });
-// });
+/*app.use((req, res, next) => {
+  req.sessionStore.all((error, sessions) => {
+    console.log("sessions 정보");
+    console.log(sessions);
+    next();
+  });
+});*/
 
 // 모든 세션 삭제 라우트
 app.get("/logoutAllSessions", (req, res) => {

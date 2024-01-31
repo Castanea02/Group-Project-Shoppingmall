@@ -54,7 +54,6 @@ export const postLogin = async (req, res) => {
   try {
     const data = req.body;
     const user = await Customers.findOne({ userid: data.id });
-
     /** 아이디가 존재하는지 확인 */
     if (!user) {
       return res.status(400).send({ success: false });
@@ -87,7 +86,32 @@ export const logout = (req, res) => {
   res.clearCookie("connect.sid"); // 클라이언트 세션 쿠키 삭제
   return res.send({ response: "200" });
 };
+/** 회원정보 수정전 비밀반호 확인*/
+export const postEditCheck = async (req, res) => {
+  console.log("✅ Edit API");
+  //데이터 받는 곳
+  // req
 
+  try {
+    const data = req.body;
+    const user = req.session.user;
+    const ok = await bcrypt.compare(data.pw, user.userpwd);
+    /** 아이디가 존재하는지 확인 */
+    if (ok) {
+      console.log("비번이 맞습니다!");
+      return res.status(200).send({
+        success: true,
+      });
+    } else {
+      console.log("비번이 틀립니다!");
+      return res.status(400).send({
+        success: false,
+      });
+    }
+  } catch (error) {
+    return res.status(500).send({ success: false, message: "서버 오류" });
+  }
+};
 /**더미 데이터 GET API */
 export const fakeProduct = (req, res) => {
   //Fake Product Object
@@ -97,24 +121,21 @@ export const fakeProduct = (req, res) => {
       id: 1,
       title: "오렌지 주스",
       price: "9,900",
-      imageUrl:
-        "https://velog.velcdn.com/images/okko8522/post/e61317bc-9f7b-4aaf-a781-fcdf07a60bb1/image.jpeg",
+      imageUrl: "https://velog.velcdn.com/images/okko8522/post/e61317bc-9f7b-4aaf-a781-fcdf07a60bb1/image.jpeg",
       description: "예나 선정이 딸이에요",
     },
     {
       id: 2,
       title: "Infinite Dragon",
       price: "39,900",
-      imageUrl:
-        "https://media1.tenor.com/m/LMM5T3PPodsAAAAC/ultra-drugon-dance-normalclassic.gif",
+      imageUrl: "https://media1.tenor.com/m/LMM5T3PPodsAAAAC/ultra-drugon-dance-normalclassic.gif",
       description: "Infinite Dragon",
     },
     {
       id: 3,
       title: "Chipi Chipi Chapa Chapa",
       price: "29,900",
-      imageUrl:
-        "https://media1.tenor.com/m/Jc9jT66AJRwAAAAd/chipi-chipi-chapa-chapa.gif",
+      imageUrl: "https://media1.tenor.com/m/Jc9jT66AJRwAAAAd/chipi-chipi-chapa-chapa.gif",
       description: "Chipi Chipi Chapa Chapa Des",
     },
 
@@ -129,16 +150,14 @@ export const fakeProduct = (req, res) => {
       id: 5,
       title: "Polite Cat",
       price: "49,900",
-      imageUrl:
-        "https://uploads.dailydot.com/2018/10/olli-the-polite-cat.jpg?q=65&auto=format&w=2270&ar=2:1&fit=crop",
+      imageUrl: "https://uploads.dailydot.com/2018/10/olli-the-polite-cat.jpg?q=65&auto=format&w=2270&ar=2:1&fit=crop",
       description: "고양이",
     },
     {
       id: 6,
       title: "Dancing Toothless",
       price: "49,900",
-      imageUrl:
-        "https://media.tenor.com/2l4-h42qnmcAAAAi/toothless-dancing-toothless.gif",
+      imageUrl: "https://media.tenor.com/2l4-h42qnmcAAAAi/toothless-dancing-toothless.gif",
       description: "댄싱 투슬리스",
     },
     {
@@ -204,8 +223,6 @@ export const checkSession = (req, res) => {
     }
   } catch (error) {
     console.error("세션 확인 실패:", error);
-    return res
-      .status(500)
-      .json({ success: false, error: "Internal Server Error" });
+    return res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 };
