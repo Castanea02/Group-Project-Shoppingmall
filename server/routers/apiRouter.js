@@ -1,6 +1,15 @@
 import express from "express";
-import { postLogin, postJoin, postProductList, postEditCheck, logout, fakeProduct, checkSession } from "../controllers/apiController";
-
+import {
+  postProductList,
+  fakeProduct,
+} from "../controllers/pruductApiController";
+import {
+  postLogin,
+  postJoin,
+  postEditCheck,
+  logout,
+  checkSession,
+} from "../controllers/userApiController";
 const apiRouter = express.Router();
 
 /**productList Post 요청*/

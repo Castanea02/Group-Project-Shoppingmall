@@ -1,10 +1,9 @@
-import { Container, Center, Input, Button } from "@chakra-ui/react";
+import { Container, Center, Input, Button, useToast } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
-import { isUserAtom } from "../atoms";
 import { useHistory } from "react-router-dom";
-import { useToast } from "@chakra-ui/react";
 import { useMutation } from "react-query";
+import { isUserAtom } from "../atoms";
 import { useLoginMutation } from "../api";
 import { ErrorLabel, Label, Title } from "../components/FormLabel";
 
@@ -39,7 +38,8 @@ function Login() {
         toast({
           position: "top",
           title: "로그인 실패",
-          description: "아이디또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.",
+          description:
+            "아이디또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.",
           status: "error",
           duration: 3000,
           isClosable: false,
@@ -51,7 +51,12 @@ function Login() {
   };
 
   return (
-    <Container border="1px" borderColor="black.200" borderRadius="5" mt={40} padding={10}>
+    <Container
+      border="1px"
+      borderColor="black.200"
+      borderRadius="5"
+      mt={40}
+      padding={10}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Center>
           <Title>Art'O</Title>
@@ -61,12 +66,22 @@ function Login() {
         {errors.id && <ErrorLabel>아이디를 입력해주세요</ErrorLabel>}
 
         <Label>Password</Label>
-        <Input {...register("pw", { required: true })} type="password" placeholder="Password" />
+        <Input
+          {...register("pw", { required: true })}
+          type="password"
+          placeholder="Password"
+        />
         {errors.pw && <ErrorLabel>비밀번호를 입력해주세요</ErrorLabel>}
-        <Button type="submit" mt={2} colorScheme="purple">
+        <Button type="submit" mt={2} mb={2} colorScheme="purple">
           Submit
         </Button>
       </form>
+      <hr />
+      <Center mt={5}>
+        <a href="#">
+          <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"></img>
+        </a>
+      </Center>
       <a href="/">뒤로</a>
     </Container>
   );

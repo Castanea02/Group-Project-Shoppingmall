@@ -1,6 +1,6 @@
 import { useToast } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { isUserAtom } from "../atoms";
 
 function SessionChecker() {

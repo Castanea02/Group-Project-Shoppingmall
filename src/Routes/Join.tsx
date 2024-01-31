@@ -1,10 +1,9 @@
-import { styled } from "styled-components";
 import { Button, Center, Container, Input, useToast } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
-import { ErrorLabel, Label, Title } from "../components/FormLabel";
 import { useMutation } from "react-query";
+import { ErrorLabel, Label, Title } from "../components/FormLabel";
 import { useJoinMutation } from "../api";
 
 interface IJoinForm {

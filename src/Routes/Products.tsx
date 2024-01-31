@@ -1,12 +1,14 @@
+import { Button, Grid, GridItem, useToast } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import Footer from "../components/Footer";
 import Product from "../components/Product";
-import { useHistory, useRouteMatch } from "react-router-dom";
-import { Button, Center, Flex, Grid, GridItem } from "@chakra-ui/react";
-import { useQuery } from "react-query";
 import { fetchProduct, fetchSendAddcart } from "../api";
+import { isUserAtom } from "../atoms";
 
 /**전체 구역 */
 const Container = styled.div`
@@ -101,11 +103,13 @@ interface IProduct {
   imageUrl: string;
   description: string;
 }
+
 /**제품 첫 화면 */
 function Products(props: any) {
   const [cart, setCart] = useState<IProduct[]>([]);
   const history = useHistory();
-
+  const isLoggedIn = useRecoilValue(isUserAtom);
+  const toast = useToast();
   const bigProductMatch = useRouteMatch<{ productId: string }>(
     "/product/:productId"
   );
@@ -132,11 +136,24 @@ function Products(props: any) {
   //Cart 추가 함수
   const addCart = (data: IProduct, e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    setCart((prev) => [...prev, data]);
+    if (isLoggedIn) {
+      console.log(isLoggedIn);
+      setCart((prev) => [...prev, data]);
+    } else {
+      toast({
+        position: "top",
+        title: "Info",
+        description: "제품 구입은 로그인 먼저 해주세요",
+        status: "info",
+        duration: 3000,
+        isClosable: false,
+      });
+      history.push("/login");
+    }
   };
 
   /**API 전송 테스트 cart내용 모두를 body에 담아서 node로 전송 */
-  const onClick = () => {
+  const sendProduct = () => {
     refetch();
   };
 
@@ -163,14 +180,13 @@ function Products(props: any) {
                       layoutId={product.id + ""}
                       onClick={() => onProductClicked(product.id + "")}>
                       <Product productInfo={product} />
-                      {props.loggedIn ? (
-                        <Button
-                          mt={5}
-                          colorScheme="purple"
-                          onClick={(e) => addCart(product, e)}>
-                          Add Cart
-                        </Button>
-                      ) : null}
+
+                      <Button
+                        mt={5}
+                        colorScheme="purple"
+                        onClick={(e) => addCart(product, e)}>
+                        Add Cart
+                      </Button>
                     </ProductCard>
                   </GridItem>
                 ))}
@@ -179,7 +195,7 @@ function Products(props: any) {
           </ProductSection>
         )}
         <CartWrapper>
-          <Button w={300} h={20} p={2} colorScheme="red" onClick={onClick}>
+          <Button w={300} h={20} p={2} colorScheme="red" onClick={sendProduct}>
             제품 API 전송
           </Button>
           {cart.map((product) => (

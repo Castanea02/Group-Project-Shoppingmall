@@ -1,11 +1,13 @@
 import { Container, Center, Input, Button, useToast } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
-import { isUserAtom } from "../atoms";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom";
+import { isUserAtom } from "../atoms";
 import { useEditCheckMutation } from "../api";
 import { ErrorLabel, Label, Title } from "../components/FormLabel";
+import NotFound from "../components/NotFound";
+import Auth from "../components/Auth";
 
 /**개인정보 수정  */
 function Edit(props: any) {
@@ -38,7 +40,8 @@ function Edit(props: any) {
         toast({
           position: "top",
           title: "실패",
-          description: "비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.",
+          description:
+            "비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.",
           status: "error",
           duration: 3000,
           isClosable: false,
@@ -49,27 +52,49 @@ function Edit(props: any) {
     }
   };
   return (
-    <Container border="1px" borderColor="black.200" borderRadius="5" mt={40} padding={10}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Center>
-          <Title>개인정보수정</Title>
-        </Center>
-        <Label>Password</Label>
-        <Input {...register("pw", { required: true })} type="password" placeholder="Password" />
-        {errors.pw && <ErrorLabel>비밀번호를 입력해주세요</ErrorLabel>}
-        <Label>Confirm Password</Label>
-        <Input {...register("confPw", { required: true })} type="password" placeholder="Confirm Password" />
-        {errors.pw && <ErrorLabel>확인 비밀번호를 입력해주세요</ErrorLabel>}
-        <Label>Email</Label>
-        <Input {...register("email", { required: true })} placeholder="Email" />
-        {errors.email && <ErrorLabel>이메일을 입력해주세요</ErrorLabel>}
-        <Button type="submit" mt={2} colorScheme="purple">
-          Submit
-        </Button>
-      </form>
-      <a href="/">뒤로</a>
+    <Container
+      border="1px"
+      borderColor="black.200"
+      borderRadius="5"
+      mt={40}
+      padding={10}>
+      {props.loggedIn ? (
+        <>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Center>
+              <Title>개인정보수정</Title>
+            </Center>
+            <Label>Password</Label>
+            <Input
+              {...register("pw", { required: true })}
+              type="password"
+              placeholder="Password"
+            />
+            {errors.pw && <ErrorLabel>비밀번호를 입력해주세요</ErrorLabel>}
+            <Label>Confirm Password</Label>
+            <Input
+              {...register("confPw", { required: true })}
+              type="password"
+              placeholder="Confirm Password"
+            />
+            {errors.pw && <ErrorLabel>확인 비밀번호를 입력해주세요</ErrorLabel>}
+            <Label>Email</Label>
+            <Input
+              {...register("email", { required: true })}
+              placeholder="Email"
+            />
+            {errors.email && <ErrorLabel>이메일을 입력해주세요</ErrorLabel>}
+            <Button type="submit" mt={2} colorScheme="purple">
+              Submit
+            </Button>
+          </form>
+          <a href="/">뒤로</a>{" "}
+        </>
+      ) : (
+        <NotFound />
+      )}
     </Container>
   );
 }
-
-export default Edit;
+const AuthEdit = Auth(Edit);
+export default AuthEdit;

@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
+import { styled } from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { styled } from "styled-components";
 
 // 이미지 데이터
 const images = [

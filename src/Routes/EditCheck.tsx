@@ -1,11 +1,13 @@
 import { Container, Center, Input, Button, useToast } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
-import { isUserAtom } from "../atoms";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom";
 import { useEditCheckMutation } from "../api";
+import { isUserAtom } from "../atoms";
 import { ErrorLabel, Label, Title } from "../components/FormLabel";
+import Auth from "../components/Auth";
+import NotFound from "../components/NotFound";
 
 /**개인정보 수정 하기 전 비밀번호 확인  */
 function EditCheck(props: any) {
@@ -38,7 +40,8 @@ function EditCheck(props: any) {
         toast({
           position: "top",
           title: "실패",
-          description: "비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.",
+          description:
+            "비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.",
           status: "error",
           duration: 3000,
           isClosable: false,
@@ -52,7 +55,12 @@ function EditCheck(props: any) {
   return (
     <>
       {props.loggedIn ? (
-        <Container border="1px" borderColor="black.200" borderRadius="5" mt={40} padding={10}>
+        <Container
+          border="1px"
+          borderColor="black.200"
+          borderRadius="5"
+          mt={40}
+          padding={10}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <>{console.log(props)}</>
             <Center>
@@ -68,10 +76,10 @@ function EditCheck(props: any) {
           <a href="/">뒤로</a>
         </Container>
       ) : (
-        history.goBack()
+        <NotFound />
       )}
     </>
   );
 }
-
-export default EditCheck;
+const AuthEditCheck = Auth(EditCheck);
+export default AuthEditCheck;
