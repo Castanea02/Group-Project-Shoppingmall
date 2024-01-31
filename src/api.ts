@@ -21,12 +21,31 @@ export async function useJoinMutation(joinFormData: any) {
     body: JSON.stringify(joinFormData),
   }).then((response) => response.json());
 }
-
+/** 개인정보체크 폼 서버로 post로 전송*/
+export async function useEditCheckMutation(EditFormData: any) {
+  return fetch(`${process.env.REACT_APP_NODE_ADDRESS}/api/editcheck`, {
+    method: "post",
+    headers: {
+      "content-type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(EditFormData),
+  }).then((response) => response.json());
+}
+/** 개인정보 폼 정보 서버로 post로 전송*/
+export async function useEditMutation(EditFormData: any) {
+  return fetch(`${process.env.REACT_APP_NODE_ADDRESS}/api/edit`, {
+    method: "post",
+    headers: {
+      "content-type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(EditFormData),
+  }).then((response) => response.json());
+}
 /**메인화면 진입 시 제품 GET 해오기 */
 export async function fetchProduct() {
-  return fetch(`${process.env.REACT_APP_NODE_ADDRESS}/api/fakeProducts`).then(
-    (response) => response.json()
-  );
+  return fetch(`${process.env.REACT_APP_NODE_ADDRESS}/api/fakeProducts`).then((response) => response.json());
 }
 /** 카트 내용 서버로 전송*/
 export async function fetchSendAddcart(cart: any) {

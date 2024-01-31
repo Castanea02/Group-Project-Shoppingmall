@@ -1,19 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import {
-  Button,
-  ButtonGroup,
-  Input,
-  Flex,
-  Box,
-  Heading,
-  Spacer,
-  Tab,
-  TabIndicator,
-  TabList,
-  Tabs,
-  useToast,
-} from "@chakra-ui/react";
+import { Button, ButtonGroup, Input, Flex, Box, Heading, Spacer, Tab, TabIndicator, TabList, Tabs, useToast } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import Header from "./Header";
 import { useSetRecoilState } from "recoil";
@@ -84,10 +71,7 @@ const NavigationBar = (props: any) => {
           <Box p="2">
             <Heading size="md">Art'O</Heading>
           </Box>
-          <Tabs
-            position="relative"
-            variant="unstyled"
-            index={getIndexFromPathname(location.pathname)}>
+          <Tabs position="relative" variant="unstyled" index={getIndexFromPathname(location.pathname)}>
             <TabList>
               <Link to="/">
                 <Tab>홈</Tab>
@@ -102,12 +86,7 @@ const NavigationBar = (props: any) => {
                 <Tab>오시는 길</Tab>
               </Link>
             </TabList>
-            <TabIndicator
-              mt="-1.5px"
-              height="2px"
-              bg="blue.500"
-              borderRadius="1px"
-            />
+            <TabIndicator mt="-1.5px" height="2px" bg="blue.500" borderRadius="1px" />
           </Tabs>
           <Spacer boxSize={50} />
           <SearchIcon boxSize={6} />

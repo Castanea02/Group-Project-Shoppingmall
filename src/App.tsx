@@ -7,6 +7,8 @@ import WayToCome from "./Routes/WayToCome";
 import HairStyles from "./Routes/HairStyles";
 import Join from "./Routes/Join";
 import Login from "./Routes/Login";
+import Edit from "./Routes/Edit";
+import EditCheck from "./Routes/EditCheck";
 import SessionChecker from "./components/SessionChecker";
 import { useRecoilValue } from "recoil";
 import { isUserAtom } from "./atoms";
@@ -39,6 +41,14 @@ const App = () => {
           <Route path="/login">
             <NavigationBar loggedIn={loggedIn} />
             <Login />
+          </Route>
+          <Route path="/editCheck">
+            <NavigationBar loggedIn={loggedIn} />
+            <EditCheck loggedIn={loggedIn} />
+          </Route>
+          <Route path="/edit">
+            <NavigationBar loggedIn={loggedIn} />
+            <Edit loggedIn={loggedIn} />
           </Route>
           <Route path="/">
             <NavigationBar loggedIn={loggedIn} />
