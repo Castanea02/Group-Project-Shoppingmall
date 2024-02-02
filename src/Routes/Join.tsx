@@ -1,9 +1,18 @@
-import { Button, Center, Container, Input, useToast } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  Container,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  useToast,
+} from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { useMutation } from "react-query";
-import { ErrorLabel, Label, Title } from "../components/FormLabel";
+import { ErrorLabel } from "../components/FormLabel";
 import { useJoinMutation } from "../api";
 
 interface IJoinForm {
@@ -59,43 +68,54 @@ function Join() {
     <Container
       border="1px"
       borderColor="black.200"
+      boxShadow="0 0 20px rgba(0, 0, 0, 0.2)"
       borderRadius="5"
-      mt={40}
+      justifyContent="center"
+      mt={39}
       padding={10}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Center>
-          <Title>Art'O</Title>
-        </Center>
-        <Label>name</Label>
-        <Input {...register("name", { required: true })} placeholder="name" />
-        {errors.name && <ErrorLabel>이름을 입력해주세요</ErrorLabel>}
-        <Label>ID</Label>
-        <Input {...register("id", { required: true })} placeholder="id" />
-        {errors.id && <ErrorLabel>아이디를 입력해주세요</ErrorLabel>}
-        {duplicateId ? <ErrorLabel>중복된 계정입니다.</ErrorLabel> : ""}
-        <Button mt={2}>중복 확인</Button>
-        <br />
+        <FormControl>
+          <Center>
+            <Heading
+              fontSize={64}
+              fontFamily="Edwardian Script ITC, sans-serif">
+              Art'O
+            </Heading>
+          </Center>
+          <FormLabel>name</FormLabel>
+          <Input {...register("name", { required: true })} placeholder="name" />
+          {errors.name && <ErrorLabel>이름을 입력해주세요</ErrorLabel>}
+          <FormLabel>ID</FormLabel>
+          <Input {...register("id", { required: true })} placeholder="id" />
+          {errors.id && <ErrorLabel>아이디를 입력해주세요</ErrorLabel>}
+          {duplicateId ? <ErrorLabel>중복된 계정입니다.</ErrorLabel> : ""}
+          <Button mt={2}>중복 확인</Button>
+          <br />
 
-        <Label>Password</Label>
-        <Input
-          {...register("pw", { required: true })}
-          type="password"
-          placeholder="Password"
-        />
-        {errors.pw && <ErrorLabel>비밀번호를 입력해주세요</ErrorLabel>}
-        <Label>Confirm Password</Label>
-        <Input
-          {...register("confPw", { required: true })}
-          type="password"
-          placeholder="Confirm Password"
-        />
-        {errors.pw && <ErrorLabel>확인 비밀번호를 입력해주세요</ErrorLabel>}
-        <Label>Email</Label>
-        <Input {...register("email", { required: true })} placeholder="Email" />
-        {errors.email && <ErrorLabel>이메일을 입력해주세요</ErrorLabel>}
-        <Button type="submit" mt={2} colorScheme="purple">
-          Submit
-        </Button>
+          <FormLabel>Password</FormLabel>
+          <Input
+            {...register("pw", { required: true })}
+            type="password"
+            placeholder="Password"
+          />
+          {errors.pw && <ErrorLabel>비밀번호를 입력해주세요</ErrorLabel>}
+          <FormLabel>Confirm Password</FormLabel>
+          <Input
+            {...register("confPw", { required: true })}
+            type="password"
+            placeholder="Confirm Password"
+          />
+          {errors.pw && <ErrorLabel>확인 비밀번호를 입력해주세요</ErrorLabel>}
+          <FormLabel>Email</FormLabel>
+          <Input
+            {...register("email", { required: true })}
+            placeholder="Email"
+          />
+          {errors.email && <ErrorLabel>이메일을 입력해주세요</ErrorLabel>}
+          <Button type="submit" mt={2} colorScheme="purple">
+            Submit
+          </Button>
+        </FormControl>
       </form>
       <a href="/">뒤로</a>
     </Container>

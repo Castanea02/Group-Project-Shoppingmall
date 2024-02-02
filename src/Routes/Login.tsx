@@ -1,4 +1,14 @@
-import { Container, Center, Input, Button, useToast } from "@chakra-ui/react";
+import {
+  Container,
+  Center,
+  Input,
+  Button,
+  useToast,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Heading,
+} from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
 import { useHistory } from "react-router-dom";
@@ -55,26 +65,37 @@ function Login() {
       border="1px"
       borderColor="black.200"
       borderRadius="5"
+      boxShadow="0 0 20px rgba(0, 0, 0, 0.2)"
       mt={40}
       padding={10}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Center>
-          <Title>Art'O</Title>
-        </Center>
-        <Label>ID</Label>
-        <Input {...register("id", { required: true })} placeholder="id" />
-        {errors.id && <ErrorLabel>아이디를 입력해주세요</ErrorLabel>}
+        <FormControl>
+          <Center>
+            <Heading
+              fontSize={64}
+              fontFamily="Edwardian Script ITC, sans-serif">
+              Art'O
+            </Heading>
+          </Center>
+          <FormLabel>ID</FormLabel>
+          <Input {...register("id", { required: true })} placeholder="id" />
+          {errors.id && (
+            <FormHelperText color="red">아이디를 입력해주세요</FormHelperText>
+          )}
 
-        <Label>Password</Label>
-        <Input
-          {...register("pw", { required: true })}
-          type="password"
-          placeholder="Password"
-        />
-        {errors.pw && <ErrorLabel>비밀번호를 입력해주세요</ErrorLabel>}
-        <Button type="submit" mt={2} mb={2} colorScheme="purple">
-          Submit
-        </Button>
+          <FormLabel>Password</FormLabel>
+          <Input
+            {...register("pw", { required: true })}
+            type="password"
+            placeholder="Password"
+          />
+          {errors.pw && (
+            <FormHelperText color="red">비밀번호를 입력해주세요</FormHelperText>
+          )}
+          <Button type="submit" mt={2} mb={2} colorScheme="purple">
+            Submit
+          </Button>
+        </FormControl>
       </form>
       <hr />
       <Center mt={5}>

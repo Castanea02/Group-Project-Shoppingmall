@@ -5,6 +5,7 @@ export const Title = styled.div`
   color: black;
   font-size: 64px;
   font-weight: bold;
+  font-family: "Edwardian Script ITC, sans-serif";
 `;
 
 export const Label = styled.div`

@@ -3,18 +3,22 @@ import { styled } from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Image } from "@chakra-ui/react";
 
 // 이미지 데이터
 const images = [
   "./img/banner.jfif",
-  "./img/banner2.jpg",
-  "./img/banner3.jpg",
+  "./img/banner2.png",
+  "./img/banner3.png",
+  "./img/banner4.png",
+  "./img/banner5.png",
   // 추가 이미지 URL 추가
 ];
 
 const SliderContent = styled(motion.div)`
   text-align: center;
   margin: 0;
+  margin-bottom: 1000px;
   padding: 0;
 `;
 
@@ -25,17 +29,17 @@ function ImageSlider() {
     dots: true,
     infinite: true,
     autoplay: true,
-    autoplaySpeed: 3000,
-    speed: 500,
+    autoplaySpeed: 4000,
+    speed: 1000,
     slidesToShow: 1,
-    slidesToScroll: 1,
   };
 
   return (
     <Slider {...settings}>
       {images.map((imageUrl, index) => (
         <SliderContent key={index}>
-          <img
+          <Image
+            fit="contain"
             style={{
               display: "block",
               marginLeft: "auto",
