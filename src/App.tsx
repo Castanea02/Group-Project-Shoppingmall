@@ -1,7 +1,6 @@
 // App.tsx
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { Helmet } from "react-helmet";
 import Products from "./Routes/Products";
 import WayToCome from "./Routes/WayToCome";
 import HairStyles from "./Routes/HairStyles";

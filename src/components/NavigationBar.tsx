@@ -2,6 +2,7 @@ import {
   Button,
   ButtonGroup,
   Input,
+  Text,
   Flex,
   Box,
   Heading,
@@ -27,8 +28,8 @@ const Section = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 70px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  height: 64px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   overflow: hidden;
   z-index: 99;
 `;
@@ -82,7 +83,9 @@ const NavigationBar = (props: any) => {
       <Section>
         <Flex justify="center" alignItems="center" gap="2">
           <Box p="2">
-            <Heading size="md">Art'O</Heading>
+            <Heading size="xl" fontFamily="Edwardian Script ITC, sans-serif">
+              Art'O
+            </Heading>
           </Box>
           <Tabs
             position="relative"
@@ -91,16 +94,24 @@ const NavigationBar = (props: any) => {
           >
             <TabList>
               <Link to="/">
-                <Tab>홈</Tab>
+                <Tab fontSize={14} fontFamily="Arial, sans-serif">
+                  Home
+                </Tab>
               </Link>
               <Link to="/styles">
-                <Tab>스타일</Tab>
+                <Tab fontSize={14} fontFamily="Arial, sans-serif">
+                  Styles
+                </Tab>
               </Link>
               <Link to="/products">
-                <Tab>제품</Tab>
+                <Tab fontSize={14} fontFamily="Arial, sans-serif">
+                  Products
+                </Tab>
               </Link>
               <Link to="/waytocome">
-                <Tab>오시는 길</Tab>
+                <Tab fontSize={14} fontFamily="Arial, sans-serif">
+                  Way To Come
+                </Tab>
               </Link>
             </TabList>
             <TabIndicator
@@ -110,9 +121,9 @@ const NavigationBar = (props: any) => {
               borderRadius="1px"
             />
           </Tabs>
-          <Spacer boxSize={50} />
-          <SearchIcon boxSize={6} />
-          <Input placeholder="Search?" htmlSize={20} width="auto"></Input>
+          <Spacer boxSize={500} />
+          {/* <SearchIcon boxSize={6} />
+          <Input placeholder="Search?" htmlSize={20} width="auto"></Input> */}
           <ButtonGroup gap="2">
             {props.loggedIn ? (
               <>
@@ -127,11 +138,21 @@ const NavigationBar = (props: any) => {
               </>
             ) : (
               <>
-                <Link to="/join">
-                  <Button colorScheme="purple">회원가입</Button>
-                </Link>
                 <Link to="/login">
-                  <Button colorScheme="purple">로그인</Button>
+                  <Button fontSize={14} fontFamily="Arial, sans-serif">
+                    Login
+                  </Button>
+                </Link>
+                {/* <Link to="/join">
+                  <Button colorScheme="purple">회원가입</Button>
+                </Link> */}
+                <Link to="/Join">
+                  <Button
+                    colorScheme="purple"
+                    fontSize={14}
+                    fontFamily="Arial, sans-serif">
+                    Join
+                  </Button>
                 </Link>
               </>
             )}
