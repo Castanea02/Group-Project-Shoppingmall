@@ -1,5 +1,5 @@
 import { Container, Center, Input, Button, useToast } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
 import { useMutation } from "react-query";
 import { useHistory } from "react-router-dom";
@@ -9,6 +9,9 @@ import { ErrorLabel, Label, Title } from "../components/FormLabel";
 import Auth from "../components/Auth";
 import NotFound from "../components/NotFound";
 
+interface IEditCheckForm {
+  pw: string;
+}
 /**개인정보 수정 하기 전 비밀번호 확인  */
 function EditCheck(props: any) {
   const isLogin = useSetRecoilState(isUserAtom);
@@ -19,9 +22,9 @@ function EditCheck(props: any) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<IEditCheckForm>();
 
-  const onSubmit = async (formData: any) => {
+  const onSubmit: SubmitHandler<IEditCheckForm> = async (formData: any) => {
     try {
       // useMutation 훅을 호출하여 로그인 비동기 작업 실행
       const data = await mutation.mutateAsync(formData);
@@ -60,7 +63,8 @@ function EditCheck(props: any) {
           borderColor="black.200"
           borderRadius="5"
           mt={40}
-          padding={10}>
+          padding={10}
+        >
           <form onSubmit={handleSubmit(onSubmit)}>
             <>{console.log(props)}</>
             <Center>

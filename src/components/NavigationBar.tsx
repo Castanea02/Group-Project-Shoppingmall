@@ -90,7 +90,8 @@ const NavigationBar = (props: any) => {
           <Tabs
             position="relative"
             variant="unstyled"
-            index={getIndexFromPathname(location.pathname)}>
+            index={getIndexFromPathname(location.pathname)}
+          >
             <TabList>
               <Link to="/">
                 <Tab fontSize={14} fontFamily="Arial, sans-serif">
@@ -125,11 +126,16 @@ const NavigationBar = (props: any) => {
           <Input placeholder="Search?" htmlSize={20} width="auto"></Input> */}
           <ButtonGroup gap="2">
             {props.loggedIn ? (
-              <Link to="/">
-                <Button onClick={logout} colorScheme="purple">
-                  로그아웃
-                </Button>
-              </Link>
+              <>
+                <Link to="/">
+                  <Button onClick={logout} colorScheme="purple">
+                    로그아웃
+                  </Button>
+                </Link>
+                <Link to="/EditCheck">
+                  <Button colorScheme="purple">개인정보수정</Button>
+                </Link>
+              </>
             ) : (
               <>
                 <Link to="/login">
@@ -144,7 +150,8 @@ const NavigationBar = (props: any) => {
                   <Button
                     colorScheme="purple"
                     fontSize={14}
-                    fontFamily="Arial, sans-serif">
+                    fontFamily="Arial, sans-serif"
+                  >
                     Join
                   </Button>
                 </Link>

@@ -9,7 +9,7 @@ const totalOrderSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  name: {
+  main_ietm_name: {
     type: String,
     required: true,
   },

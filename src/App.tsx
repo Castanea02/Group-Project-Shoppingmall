@@ -39,7 +39,7 @@ const App = () => {
             <Login />
           </Route>
           <Route path="/editCheck">
-            <AuthEditCheck />
+            <AuthEditCheck loggedIn={loggedIn} />
           </Route>
           <Route path="/edit">
             <AuthEdit />

@@ -7,6 +7,7 @@ import {
   postLogin,
   postJoin,
   postEditCheck,
+  postEdit,
   logout,
   checkSession,
 } from "../controllers/userApiController";
@@ -18,6 +19,7 @@ apiRouter.post("/join", postJoin);
 apiRouter.post("/login", postLogin);
 apiRouter.post("/logout", logout);
 apiRouter.post("/editcheck", postEditCheck);
+apiRouter.post("/edit", postEdit);
 apiRouter.get("/fakeProducts", fakeProduct);
 apiRouter.get("/check-session", checkSession);
 

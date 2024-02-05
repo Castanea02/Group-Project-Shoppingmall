@@ -72,13 +72,15 @@ function Join() {
       borderRadius="5"
       justifyContent="center"
       mt={39}
-      padding={10}>
+      padding={10}
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
           <Center>
             <Heading
               fontSize={64}
-              fontFamily="Edwardian Script ITC, sans-serif">
+              fontFamily="Edwardian Script ITC, sans-serif"
+            >
               Art'O
             </Heading>
           </Center>

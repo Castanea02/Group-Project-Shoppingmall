@@ -67,13 +67,15 @@ function Login() {
       borderRadius="5"
       boxShadow="0 0 20px rgba(0, 0, 0, 0.2)"
       mt={40}
-      padding={10}>
+      padding={10}
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
           <Center>
             <Heading
               fontSize={64}
-              fontFamily="Edwardian Script ITC, sans-serif">
+              fontFamily="Edwardian Script ITC, sans-serif"
+            >
               Art'O
             </Heading>
           </Center>

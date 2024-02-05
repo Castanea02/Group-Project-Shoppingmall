@@ -23,7 +23,8 @@ function Product(data: any) {
           fontWeight="semibold"
           as="h4"
           lineHeight="tight"
-          noOfLines={1}>
+          noOfLines={1}
+        >
           {property.title}
         </Box>
         <Box>

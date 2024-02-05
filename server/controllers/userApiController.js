@@ -43,7 +43,7 @@ export const postLogin = async (req, res) => {
     const data = req.body;
     const user = await Customers.findOne({ userid: data.id });
     /** 아이디가 존재하는지 확인 */
-    if (!user) {
+    if (!(user && user.signout)) {
       return res.status(400).send({ success: false });
     }
     /** 비번이 맞는지 확인 */
@@ -76,7 +76,7 @@ export const logout = (req, res) => {
 };
 /** 회원정보 수정전 비밀반호 확인*/
 export const postEditCheck = async (req, res) => {
-  console.log("✅ Edit API");
+  console.log("✅ EditCheck API");
   //데이터 받는 곳
   // req
 
@@ -92,6 +92,54 @@ export const postEditCheck = async (req, res) => {
       });
     } else {
       console.log("비번이 틀립니다!");
+      return res.status(400).send({
+        success: false,
+      });
+    }
+  } catch (error) {
+    return res.status(500).send({ success: false, message: "서버 오류" });
+  }
+};
+/** 회원정보 수정 확인*/
+export const postEdit = async (req, res) => {
+  console.log("✅ Edit API");
+  //데이터 받는 곳
+  // req
+
+  try {
+    const data = req.body;
+    const key = req.session.user._id;
+    const user = await Customers.findById(key);
+    let check = true;
+    //비번을 바꿈
+    if (data.pw) {
+      /**비밀번호가 이전번호와 같을경우 */
+      if (await bcrypt.compare(data.pw, user.userpwd)) {
+        check = false;
+      } else {
+        /**비밀번호 수정*/
+        user.userpwd = data.pw;
+      }
+    }
+    //이메일을 바꿈
+    if (data.email) {
+      /**이메일이 이전이메일과 같을경우 */
+      if (data.email == user.email) {
+        check = false;
+      } else {
+        /**수정 */
+        user.email = data.email;
+      }
+    }
+    /** 성공적으로 변경했는지 확인 */
+    if (check) {
+      await user.save();
+      console.log("변경되었습니다!");
+      return res.status(200).send({
+        success: true,
+      });
+    } else {
+      console.log("수정하려는 데이터가 이전 데이터와 같습니다.");
       return res.status(400).send({
         success: false,
       });

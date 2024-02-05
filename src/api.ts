@@ -34,18 +34,24 @@ export async function useEditCheckMutation(EditFormData: any) {
 }
 /** 개인정보 폼 정보 서버로 post로 전송*/
 export async function useEditMutation(EditFormData: any) {
-  return fetch(`${process.env.REACT_APP_NODE_ADDRESS}/api/edit`, {
-    method: "post",
-    headers: {
-      "content-type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify(EditFormData),
-  }).then((response) => response.json());
+  try {
+    return fetch(`${process.env.REACT_APP_NODE_ADDRESS}/api/edit`, {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(EditFormData),
+    }).then((response) => response.json());
+  } catch (error) {
+    return { error };
+  }
 }
 /**메인화면 진입 시 제품 GET 해오기 */
 export async function fetchProduct() {
-  return fetch(`${process.env.REACT_APP_NODE_ADDRESS}/api/fakeProducts`).then((response) => response.json());
+  return fetch(`${process.env.REACT_APP_NODE_ADDRESS}/api/fakeProducts`).then(
+    (response) => response.json()
+  );
 }
 /** 카트 내용 서버로 전송*/
 export async function fetchSendAddcart(cart: any) {
