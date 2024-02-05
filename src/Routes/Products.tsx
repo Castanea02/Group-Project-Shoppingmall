@@ -178,13 +178,15 @@ function Products(props: any) {
                   <GridItem key={product.id}>
                     <ProductCard
                       layoutId={product.id + ""}
-                      onClick={() => onProductClicked(product.id + "")}>
+                      onClick={() => onProductClicked(product.id + "")}
+                    >
                       <Product productInfo={product} />
 
                       <Button
                         mt={5}
                         colorScheme="purple"
-                        onClick={(e) => addCart(product, e)}>
+                        onClick={(e) => addCart(product, e)}
+                      >
                         Add Cart
                       </Button>
                     </ProductCard>

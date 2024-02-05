@@ -150,7 +150,8 @@ const NavigationBar = (props: any) => {
                   <Button
                     colorScheme="purple"
                     fontSize={14}
-                    fontFamily="Arial, sans-serif">
+                    fontFamily="Arial, sans-serif"
+                  >
                     Join
                   </Button>
                 </Link>

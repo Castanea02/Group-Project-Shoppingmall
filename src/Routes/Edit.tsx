@@ -105,25 +105,41 @@ function Edit(props: any) {
       mt={40}
       padding={10}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Center>
-          <Title>개인정보수정</Title>
-        </Center>
-        <Label>Password</Label>
-        <Input {...register("pw")} type="password" placeholder="Password" />
-        <Label>Confirm Password</Label>
-        <Input
-          {...register("confPw")}
-          type="password"
-          placeholder="Confirm Password"
-        />
-        <Label>Email</Label>
-        <Input {...register("email")} placeholder="Email" />
-        <Button type="submit" mt={2} colorScheme="purple">
-          Submit
-        </Button>
-      </form>
-      <a href="/">뒤로</a>
+      {props.loggedIn ? (
+        <>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Center>
+              <Title>개인정보수정</Title>
+            </Center>
+            <Label>Password</Label>
+            <Input
+              {...register("pw", { required: true })}
+              type="password"
+              placeholder="Password"
+            />
+            {errors.pw && <ErrorLabel>비밀번호를 입력해주세요</ErrorLabel>}
+            <Label>Confirm Password</Label>
+            <Input
+              {...register("confPw", { required: true })}
+              type="password"
+              placeholder="Confirm Password"
+            />
+            {errors.pw && <ErrorLabel>확인 비밀번호를 입력해주세요</ErrorLabel>}
+            <Label>Email</Label>
+            <Input
+              {...register("email", { required: true })}
+              placeholder="Email"
+            />
+            {errors.email && <ErrorLabel>이메일을 입력해주세요</ErrorLabel>}
+            <Button type="submit" mt={2} colorScheme="purple">
+              Submit
+            </Button>
+          </form>
+          <a href="/">뒤로</a>{" "}
+        </>
+      ) : (
+        <NotFound />
+      )}
     </Container>
   );
 }
