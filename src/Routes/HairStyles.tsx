@@ -28,7 +28,6 @@ function HairStyles() {
         containerRef.current &&
         !containerRef.current.contains(event.target as Node)
       ) {
-        // 클릭된 요소가 컨테이너 외부에 있다면 초기화
         setSelectedGrid(null);
       }
     };
