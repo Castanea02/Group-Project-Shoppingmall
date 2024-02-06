@@ -8,6 +8,7 @@ import {
   FormHelperText,
   FormLabel,
   Heading,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
@@ -21,6 +22,7 @@ import { ErrorLabel, Label, Title } from "../components/FormLabel";
 function Login() {
   const isLogin = useSetRecoilState(isUserAtom);
   const mutation = useMutation(useLoginMutation);
+  const borderColor = useColorModeValue("gray.200", "gray.600");
   const history = useHistory();
   const toast = useToast();
   const {
@@ -63,49 +65,45 @@ function Login() {
   return (
     <Container
       border="1px"
-      borderColor="black.200"
+      borderColor={borderColor}
       borderRadius="5"
       boxShadow="0 0 20px rgba(0, 0, 0, 0.2)"
       mt={40}
-      padding={10}
-    >
+      padding={10}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormControl>
-          <Center>
-            <Heading
-              fontSize={64}
-              fontFamily="Edwardian Script ITC, sans-serif"
-            >
-              Art'O
-            </Heading>
-          </Center>
-          <FormLabel>ID</FormLabel>
-          <Input {...register("id", { required: true })} placeholder="id" />
-          {errors.id && (
-            <FormHelperText color="red">아이디를 입력해주세요</FormHelperText>
-          )}
+        <Center mb={5}>
+          <Heading
+            fontSize="64px"
+            fontFamily="Edwardian Script ITC, sans-serif">
+            Art'O
+          </Heading>
+        </Center>
 
+        <FormControl isRequired>
+          <FormLabel>ID</FormLabel>
+          <Input
+            {...register("id", { required: "아이디를 입력해주세요" })}
+            placeholder="id"
+          />
+          {errors.id && <FormHelperText color="red"></FormHelperText>}
+        </FormControl>
+
+        <FormControl isRequired mt={4}>
           <FormLabel>Password</FormLabel>
           <Input
-            {...register("pw", { required: true })}
+            {...register("pw", { required: "비밀번호를 입력해주세요" })}
             type="password"
             placeholder="Password"
           />
           {errors.pw && (
             <FormHelperText color="red">비밀번호를 입력해주세요</FormHelperText>
           )}
-          <Button type="submit" mt={2} mb={2} colorScheme="purple">
-            Submit
-          </Button>
         </FormControl>
+
+        <Button type="submit" mt={4} colorScheme="purple" width="full">
+          Submit
+        </Button>
       </form>
-      <hr />
-      <Center mt={5}>
-        <a href="#">
-          <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"></img>
-        </a>
-      </Center>
-      <a href="/">뒤로</a>
     </Container>
   );
 }

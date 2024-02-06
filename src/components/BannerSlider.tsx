@@ -18,7 +18,7 @@ const images = [
 const SliderContent = styled(motion.div)`
   text-align: center;
   margin: 0;
-  margin-bottom: 1000px;
+  margin-bottom: 100px;
   padding: 0;
 `;
 

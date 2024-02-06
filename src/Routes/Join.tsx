@@ -3,9 +3,11 @@ import {
   Center,
   Container,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Heading,
   Input,
+  useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -67,59 +69,89 @@ function Join() {
   return (
     <Container
       border="1px"
-      borderColor="black.200"
+      borderColor={useColorModeValue("gray.200", "gray.600")}
       boxShadow="0 0 20px rgba(0, 0, 0, 0.2)"
       borderRadius="5"
       justifyContent="center"
       mt={39}
-      padding={10}
-    >
+      padding={10}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
-          <Center>
+          <Center mb={4}>
             <Heading
-              fontSize={64}
-              fontFamily="Edwardian Script ITC, sans-serif"
-            >
+              fontSize="4xl"
+              fontFamily="Edwardian Script ITC, sans-serif">
               Art'O
             </Heading>
           </Center>
-          <FormLabel>name</FormLabel>
-          <Input {...register("name", { required: true })} placeholder="name" />
-          {errors.name && <ErrorLabel>이름을 입력해주세요</ErrorLabel>}
-          <FormLabel>ID</FormLabel>
-          <Input {...register("id", { required: true })} placeholder="id" />
-          {errors.id && <ErrorLabel>아이디를 입력해주세요</ErrorLabel>}
-          {duplicateId ? <ErrorLabel>중복된 계정입니다.</ErrorLabel> : ""}
-          <Button mt={2}>중복 확인</Button>
-          <br />
-
-          <FormLabel>Password</FormLabel>
+          <FormLabel htmlFor="name">Name</FormLabel>
           <Input
-            {...register("pw", { required: true })}
+            id="name"
+            {...register("name", { required: "이름을 입력해주세요" })}
+            placeholder="name"
+          />
+          {errors.name && (
+            <FormErrorMessage>{errors.name.message}</FormErrorMessage>
+          )}
+
+          <FormLabel htmlFor="id">ID</FormLabel>
+          <Input
+            id="id"
+            {...register("id", { required: "아이디를 입력해주세요" })}
+            placeholder="id"
+          />
+          {errors.id && (
+            <FormErrorMessage>{errors.id.message}</FormErrorMessage>
+          )}
+          {duplicateId && (
+            <FormErrorMessage>중복된 계정입니다.</FormErrorMessage>
+          )}
+          <Button
+            mt={2}
+            mb={4}
+            colorScheme="teal"
+            size="sm"
+            onClick={() => setDuplicateId(true)}>
+            중복 확인
+          </Button>
+
+          <FormLabel htmlFor="password">Password</FormLabel>
+          <Input
+            id="password"
+            {...register("pw", { required: "비밀번호를 입력해주세요" })}
             type="password"
             placeholder="Password"
           />
-          {errors.pw && <ErrorLabel>비밀번호를 입력해주세요</ErrorLabel>}
-          <FormLabel>Confirm Password</FormLabel>
+          {errors.pw && (
+            <FormErrorMessage>{errors.pw.message}</FormErrorMessage>
+          )}
+
+          <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
           <Input
-            {...register("confPw", { required: true })}
+            id="confirmPassword"
+            {...register("confPw")}
             type="password"
             placeholder="Confirm Password"
           />
-          {errors.pw && <ErrorLabel>확인 비밀번호를 입력해주세요</ErrorLabel>}
-          <FormLabel>Email</FormLabel>
+          {errors.confPw && (
+            <FormErrorMessage>{errors.confPw.message}</FormErrorMessage>
+          )}
+
+          <FormLabel htmlFor="email">Email</FormLabel>
           <Input
-            {...register("email", { required: true })}
+            id="email"
+            {...register("email", { required: "이메일을 입력해주세요" })}
             placeholder="Email"
           />
-          {errors.email && <ErrorLabel>이메일을 입력해주세요</ErrorLabel>}
-          <Button type="submit" mt={2} colorScheme="purple">
+          {errors.email && (
+            <FormErrorMessage>{errors.email.message}</FormErrorMessage>
+          )}
+
+          <Button type="submit" mt={4} colorScheme="purple" width="full">
             Submit
           </Button>
         </FormControl>
       </form>
-      <a href="/">뒤로</a>
     </Container>
   );
 }

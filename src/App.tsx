@@ -9,7 +9,7 @@ import Join from "./Routes/Join";
 import Login from "./Routes/Login";
 import AuthEditCheck from "./Routes/EditCheck";
 import AuthEdit from "./Routes/Edit";
-import NavigationBar from "./components/NavigationBar";
+import NavigationBar from "./components/NavBar";
 import SessionChecker from "./components/SessionChecker";
 import { isUserAtom } from "./atoms";
 
@@ -21,10 +21,10 @@ const App = () => {
     <>
       {loggedIn ? <SessionChecker /> : null}
       <BrowserRouter>
-        <NavigationBar loggedIn={loggedIn} />
+        <NavigationBar />
         <Switch>
           <Route path={["/products", "/product/:productId"]}>
-            <Products loggedIn={loggedIn} />
+            <Products />
           </Route>
           <Route path="/waytocome">
             <WayToCome />
@@ -42,7 +42,7 @@ const App = () => {
             <AuthEditCheck loggedIn={loggedIn} />
           </Route>
           <Route path="/edit">
-            <AuthEdit />
+            <AuthEdit loggedIn={loggedIn} />
           </Route>
           <Route path="/">
             <Main />

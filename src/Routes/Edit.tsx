@@ -1,4 +1,17 @@
-import { Container, Center, Input, Button, useToast } from "@chakra-ui/react";
+import {
+  Container,
+  Center,
+  Input,
+  Text,
+  Button,
+  useToast,
+  Box,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
 import { useMutation } from "react-query";
@@ -9,6 +22,7 @@ import { useEditCheckMutation } from "../api";
 import { ErrorLabel, Label, Title } from "../components/FormLabel";
 import NotFound from "../components/NotFound";
 import Auth from "../components/Auth";
+import { watch } from "fs";
 
 interface IEditForm {
   pw: string;
@@ -70,7 +84,6 @@ function Edit(props: any) {
       }
       // useMutation 훅을 호출하여 로그인 비동기 작업 실행
       const data = await mutation.mutateAsync(formData);
-      console.log(data);
       if (data.success) {
         isLogin(true);
         toast({
@@ -100,45 +113,54 @@ function Edit(props: any) {
   return (
     <Container
       border="1px"
-      borderColor="black.200"
+      borderColor={useColorModeValue("gray.200", "gray.600")}
       borderRadius="5"
       mt={40}
-      padding={10}
-    >
+      padding={10}>
       {props.loggedIn ? (
         <>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Center>
-              <Title>개인정보수정</Title>
+            <Center mb={4}>
+              <Heading size="lg">개인정보수정</Heading>
             </Center>
-            <Label>Password</Label>
-            <Input
-              {...register("pw", { required: true })}
-              type="password"
-              placeholder="Password"
-            />
-            {errors.pw && <ErrorLabel>비밀번호를 입력해주세요</ErrorLabel>}
-            <Label>Confirm Password</Label>
-            <Input
-              {...register("confPw", { required: true })}
-              type="password"
-              placeholder="Confirm Password"
-            />
-            {errors.pw && <ErrorLabel>확인 비밀번호를 입력해주세요</ErrorLabel>}
-            <Label>Email</Label>
-            <Input
-              {...register("email", { required: true })}
-              placeholder="Email"
-            />
-            {errors.email && <ErrorLabel>이메일을 입력해주세요</ErrorLabel>}
-            <Button type="submit" mt={2} colorScheme="purple">
+            <FormControl>
+              <FormLabel>Password</FormLabel>
+              <Input
+                {...register("pw", { required: "비밀번호를 입력해주세요" })}
+                type="password"
+                placeholder="Password"
+              />
+              <FormErrorMessage>{errors.pw?.message}</FormErrorMessage>
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Confirm Password</FormLabel>
+              <Input
+                {...register("confPw")}
+                type="password"
+                placeholder="Confirm Password"
+              />
+              <FormErrorMessage>{errors.confPw?.message}</FormErrorMessage>
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Email</FormLabel>
+              <Input
+                {...register("email", { required: "이메일을 입력해주세요" })}
+                placeholder="Email"
+              />
+              <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+            </FormControl>
+
+            <Button type="submit" mt={4} colorScheme="purple" width="full">
               Submit
             </Button>
           </form>
-          <a href="/">뒤로</a>{" "}
         </>
       ) : (
-        <NotFound />
+        <Box textAlign="center" py={10}>
+          <Text>정보를 찾을 수 없습니다.</Text>
+        </Box>
       )}
     </Container>
   );
